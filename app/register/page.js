@@ -1,7 +1,10 @@
+import RegisterForm from "./form";
+
 export default async function Home() {
   return (
-    <div className="m-4">
-      <h1>Register Page</h1>
+    <div className="h-screen flex flex-col justify-center items-center">
+      <h1>Register</h1>
+      <RegisterForm />
     </div>
   );
 }
