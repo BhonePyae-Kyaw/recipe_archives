@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="w-full">
       <TopMenu />
-      <h1>Feed Page</h1>
+      <h1>Profile Page</h1>
       {/* <p>{JSON.stringify(session)}</p> */}
       <button
         onClick={() => signOut({ callbackUrl: "http://localhost:3000/login" })}

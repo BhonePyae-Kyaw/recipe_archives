@@ -1,5 +1,6 @@
 import clientPromise from "@/lib/mongodbClient";
 import { NextResponse } from "next/server";
+import { Profiler } from "react";
 
 export async function POST(request) {
   try {
@@ -13,6 +14,7 @@ export async function POST(request) {
       email,
       password: hashedPassword,
       username: username,
+      ProfilePicture: "https://www.gravatar.com/avatar",
     });
     return NextResponse.json(
       { message: "Account created successfully." },
