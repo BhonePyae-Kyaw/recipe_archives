@@ -63,7 +63,7 @@ const RegisterForm = () => {
       toast.error(data.error);
     } else {
       toast.success("Account created successfully.");
-      router.push("/feed");
+      router.push("/login");
     }
   }
 
