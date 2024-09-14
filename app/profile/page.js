@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     if (session) {
       // Fetch user data
-      fetch(`/api/user?id=${session.user?.id}`, {
+      fetch(`/api/user/${session.user?.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export default function Home() {
     }
   };
 
-  console.log("User data:", user?.[0]?.username);
+  console.log("User data:", user);
   return (
     <div className="w-full">
       <TopMenu />
@@ -79,7 +79,7 @@ export default function Home() {
             </label>
             <input
               type="text"
-              value={user?.[0]?.username || ""}
+              value={user?.username || ""}
               disabled
               className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
@@ -91,7 +91,7 @@ export default function Home() {
             </label>
             <input
               type="text"
-              value={user?.[0]?.email || ""}
+              value={user?.email || ""}
               disabled
               className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />

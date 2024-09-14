@@ -1,10 +1,12 @@
-import { dbConnect } from "../../../utils/db";
-import User from "../../../models/user";
+import dbConnect from "@/lib/db";
+import User from "@/models/user";
 import { NextResponse } from "next/server";
 /**Find by Id */
-export const GET = async (request) => {
+export const GET = async (request, params) => {
   try {
-    const { id } = request.query;
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
+    console.log(id);
     await dbConnect();
     const user = await User.findById(id);
     if (!user) {

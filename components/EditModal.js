@@ -14,14 +14,14 @@ import React from "react";
 
 export function PopoverDemo({ user, action }) {
   console.log(user);
-  const [name, setName] = useState(user?.[0]?.username);
-  const [email, setEmail] = useState(user?.[0]?.email);
+  const [name, setName] = useState(user?.username);
+  const [email, setEmail] = useState(user?.email);
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
-      setName(user?.[0]?.username);
-      setEmail(user?.[0]?.email);
+      setName(user?.username);
+      setEmail(user?.email);
     }
   }, [user]);
 
@@ -32,7 +32,7 @@ export function PopoverDemo({ user, action }) {
         "Content-Type": "application/json", // Make sure to set the Content-Type header
       },
       body: JSON.stringify({
-        id: user?.[0]?._id,
+        id: user?._id,
         name,
         email,
       }),
