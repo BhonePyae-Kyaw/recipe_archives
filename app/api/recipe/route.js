@@ -1,6 +1,6 @@
-import dbConnect from "@/lib/db";
-import Recipe from "@/models/recipe";
-import { NextResponse } from "next/server";
+import dbConnect from "@/lib/db"; // Database connection
+import Recipe from "@/models/recipe"; // Recipe model
+import { NextResponse } from "next/server"; // NextResponse
 
 export const GET = async () => {
   try {
@@ -14,3 +14,5 @@ export const GET = async () => {
     );
   }
 };
+
+// POST request to create a new recipe

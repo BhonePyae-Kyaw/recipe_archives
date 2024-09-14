@@ -20,6 +20,7 @@ export default function Create() {
       <h1>Logged in user ID: {session?.user?.id}</h1>
 
       <h1>Logged in user name: {session?.user?.username}</h1>
+      <h1>Moe san</h1>
     </div>
   );
 }
