@@ -2,11 +2,14 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Review from "@/components/ui/review";
+
 export default function Home() {
   const { data: session, status } = useSession();
   const [recipes, setRecipes] = useState([]);
+  const [users, setUsers] = useState([]);
+
   const router = useRouter();
 
   const getRecipes = async () => {
@@ -25,8 +28,25 @@ export default function Home() {
     }
   };
 
+  const getUsers = async () => {
+    const response = await fetch("/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setUsers(data);
+    } else {
+      console.error("Error fetching users:", response.statusText);
+    }
+  };
+
   useEffect(() => {
     getRecipes();
+    getUsers();
   }, []);
 
   const handleRedirect = () => {
@@ -37,6 +57,27 @@ export default function Home() {
   const handleRedirectToReview = (id) => {
     console.log("Redirecting to review recipe page");
     router.push(`create/review/${id}`);
+  };
+
+  useEffect(() => {
+    console.log("Fetched Users:", users); // Log the user data
+  }, [users]);
+
+  const findUsernameById = (userId) => {
+    console.log("Looking for user with ID:", userId); // Log the user ID you're looking for
+    const user = users.find((user) => user._id === userId); // Match with user._id
+    console.log("Found user:", user); // Log the found user (or undefined)
+    return user ? user.username : "Unknown User";
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    // Update the recipes state to remove the deleted review
+    setRecipes((prevRecipes) =>
+      prevRecipes.map((recipe) => ({
+        ...recipe,
+        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+      }))
+    );
   };
 
   console.log("Recipes:", recipes);
@@ -63,21 +104,26 @@ export default function Home() {
                 Review Recipe
               </button>
             </h1>
-            <p>title: {recipe.recipe_title}</p>
+            <p>Title: {recipe.recipe_title}</p>
             <p>Desc: {recipe.brief_description}</p>
-            <p>Ingredients{recipe.ingredients}</p>
-            <p>preparations: {recipe.preparation}</p>
+            <p>Ingredients: {recipe.ingredients}</p>
+            <p>Preparations: {recipe.preparation}</p>
             <hr />
             <h1 className="text-green-500">Uploaded by</h1>
             <p>{recipe.userDetails[0].username}</p>
             <hr />
-            <h1 className="text-green-500">Reviews</h1>
+            <h1 className="text-green-500 text-2xl">Reviews</h1>
             {recipe.reviews.map((review) => (
-              <div key={review._id}>
-                <p>{review.review_description}</p>
-                <p>Rating: {review.rating}</p>
-                <hr />
-              </div>
+              <Review
+                key={review._id}
+                title={review.review_title}
+                description={review.review_description}
+                rating={review.rating}
+                username={findUsernameById(review.userId)}
+                date={new Date(review.createdAt).toLocaleDateString()}
+                reviewId={review._id} // Pass the review ID
+                onDelete={handleDeleteReview} // Pass the delete function
+              />
             ))}
           </div>
         ))}
