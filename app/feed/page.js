@@ -4,6 +4,7 @@ import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Review from "@/components/ui/review";
+import { ReceiptCent } from "lucide-react";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -70,15 +71,17 @@ export default function Home() {
     return user ? user.username : "Unknown User";
   };
 
-  const handleDeleteReview = (reviewId) => {
-    // Update the recipes state to remove the deleted review
-    setRecipes((prevRecipes) =>
-      prevRecipes.map((recipe) => ({
-        ...recipe,
-        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
-      }))
-    );
-  };
+  // const handleDeleteReview = (reviewId) => {
+  //   // Update the recipes state to remove the deleted review
+  //   setRecipes((prevRecipes) =>
+  //     prevRecipes.map((recipe) => ({
+  //       ...recipe,
+  //       reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+  //     }))
+  //   );
+  // };
+
+  console.log(recipes);
 
   console.log("Recipes:", recipes);
   return (
@@ -104,27 +107,42 @@ export default function Home() {
                 Review Recipe
               </button>
             </h1>
-            <p>Title: {recipe.recipe_title}</p>
-            <p>Desc: {recipe.brief_description}</p>
+            <p>Title: {recipe.title}</p>
+            <p>Desc: {recipe.description}</p>
             <p>Ingredients: {recipe.ingredients}</p>
             <p>Preparations: {recipe.preparation}</p>
             <hr />
-            <h1 className="text-green-500">Uploaded by</h1>
-            <p>{recipe.userDetails[0].username}</p>
+            <p className="text-green-500">
+              Uploaded by{" "}
+              <span className="text-slate-800">
+                {recipe.userDetails?.username}
+              </span>
+            </p>
             <hr />
+
             <h1 className="text-green-500 text-2xl">Reviews</h1>
-            {recipe.reviews.map((review) => (
-              <Review
-                key={review._id}
-                title={review.review_title}
-                description={review.review_description}
-                rating={review.rating}
-                username={findUsernameById(review.userId)}
-                date={new Date(review.createdAt).toLocaleDateString()}
-                reviewId={review._id} // Pass the review ID
-                onDelete={handleDeleteReview} // Pass the delete function
-              />
-            ))}
+            {recipe?.reviews?.length > 0 ? (
+              <div>
+                {JSON.stringify(recipe?.reviews.length)}
+                {recipe?.reviews?.map((review) => (
+                  <Review
+                    key={review._id}
+                    title={review.review_title}
+                    description={review.review_description}
+                    rating={review.rating}
+                    username={findUsernameById(review.userId)}
+                    date={new Date(review.createdAt).toLocaleDateString()}
+                    reviewId={review._id} // Pass the review ID
+                    // onDelete={handleDeleteReview} // Pass the delete function
+                    reviewUsers={review?.userDetails}
+                    review_id={review._id}
+                    loginSession={session}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-800">No reviews yet</p>
+            )}
           </div>
         ))}
       </div>

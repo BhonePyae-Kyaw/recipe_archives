@@ -1,13 +1,30 @@
 import React from "react";
 
 // Review component
-export default function Review({ title, description, username, date, rating, reviewId, onDelete }) {
+export default function Review({
+  review_id,
+  title,
+  description,
+  username,
+  date,
+  rating,
+  reviewId,
+  // onDelete,
+  reviewUsers,
+  loginSession,
+}) {
+  console.log("User details:", reviewUsers);
+  console.log(loginSession);
+  // loginsession user id - review - userdetails -id (if they match, show delete button, edit button)
   // Function to render stars based on the rating
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i} className={i <= rating ? "text-yellow-500" : "text-gray-300"}>
+        <span
+          key={i}
+          className={i <= rating ? "text-yellow-500" : "text-gray-300"}
+        >
           ★
         </span>
       );
@@ -17,18 +34,16 @@ export default function Review({ title, description, username, date, rating, rev
 
   // Function to handle delete
   const handleDelete = async () => {
+    console.log(review_id);
     try {
-      const response = await fetch(`/api/review/${reviewId}`, {
+      const response = await fetch(`/api/review/${review_id}`, {
         method: "DELETE",
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete review");
       }
-
       console.log("Review deleted successfully!");
-      onDelete(reviewId); // Call the onDelete prop to remove the review from the parent state
     } catch (error) {
       console.error("Error deleting review:", error.message);
     }
@@ -42,7 +57,7 @@ export default function Review({ title, description, username, date, rating, rev
       </div>
       <p className="text-gray-600 mb-4">{description}</p>
       <div className="flex justify-between text-sm text-gray-500">
-        <span className="font-medium">{username}</span>
+        <span className="font-medium">{reviewUsers?.username}</span>
         <span>{new Date(date).toLocaleDateString()}</span>
       </div>
       <button

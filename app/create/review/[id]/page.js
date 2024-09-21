@@ -1,16 +1,25 @@
 "use client";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import TopMenu from "@/components/TopMenu";
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 export default function Create() {
   const { id } = useParams(); // Get recipe ID from URL
   const { data: session } = useSession(); // Get session details
-  
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       title: "",
@@ -32,15 +41,14 @@ export default function Create() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          recipe_id: id,                // Use `recipe_id` from the URL params
-          user_id: session?.user?.id,   // Use `user_id` from session
-          review_title: data.title,     // Use `review_title` for the title
-          review_description: data.review,  // Use `review_description` for the review text
+          recipe_id: id, // Use `recipe_id` from the URL params
+          user_id: session?.user?.id, // Use `user_id` from session
+          review_title: data.title, // Use `review_title` for the title
+          review_description: data.review, // Use `review_description` for the review text
           rating: parseInt(data.rating), // Ensure rating is a number
           review_picture: "", // If there's a picture, add it here; otherwise leave empty or use a default value
         }),
       });
-      
 
       if (!response.ok) {
         throw new Error("Failed to submit review");
@@ -49,6 +57,8 @@ export default function Create() {
       console.log("Review submitted successfully!");
       console.log("Response status:", response.status);
       console.log("Response body:", await response.text());
+      // Redirect to the recipe page after submission
+      router.push(`/feed`);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -62,7 +72,9 @@ export default function Create() {
       <h1>Logged in user name: {session?.user?.username}</h1> */}
 
       <div className="max-w-lg mx-auto my-8 p-4 rounded-md shadow-md bg-white">
-        <h1 className="text-2xl font-semibold text-center mb-4">Submit Your Review</h1>
+        <h1 className="text-2xl font-semibold text-center mb-4">
+          Submit Your Review
+        </h1>
 
         {/* Form starts here */}
         <Form {...form}>
