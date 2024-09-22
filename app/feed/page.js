@@ -2,11 +2,15 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Review from "@/components/ui/review";
+import { ReceiptCent, Star } from "lucide-react";
+
 export default function Home() {
   const { data: session, status } = useSession();
   const [recipes, setRecipes] = useState([]);
+  const [users, setUsers] = useState([]);
+
   const router = useRouter();
 
   const getRecipes = async () => {
@@ -39,7 +43,17 @@ export default function Home() {
     router.push(`create/review/${id}`);
   };
 
-  console.log("Recipes:", recipes);
+  const handleDeleteReview = (reviewId) => {
+    setRecipes((prevRecipes) =>
+      prevRecipes.map((recipe) => ({
+        ...recipe,
+        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+      }))
+    );
+  };
+
+  console.log(recipes);
+
   return (
     <div className="w-full">
       <TopMenu />
@@ -48,39 +62,72 @@ export default function Home() {
         Create Recipe
       </button>
       <div>
-        {recipes.map((recipe) => (
-          <div
-            key={recipe._id}
-            className="bg-white p-12 rounded-lg shadow-md m-4 text-slate-800"
-          >
-            <hr />
-            <h1 className="text-green-500">
-              Recipe
-              <button
-                className="bg-gray-300 p-2 rounded-lg m-4 text-slate-800"
-                onClick={() => handleRedirectToReview(recipe._id)}
-              >
-                Review Recipe
-              </button>
-            </h1>
-            <p>title: {recipe.recipe_title}</p>
-            <p>Desc: {recipe.brief_description}</p>
-            <p>Ingredients{recipe.ingredients}</p>
-            <p>preparations: {recipe.preparation}</p>
-            <hr />
-            <h1 className="text-green-500">Uploaded by</h1>
-            <p>{recipe.userDetails[0].username}</p>
-            <hr />
-            <h1 className="text-green-500">Reviews</h1>
-            {recipe.reviews.map((review) => (
-              <div key={review._id}>
-                <p>{review.review_description}</p>
-                <p>Rating: {review.rating}</p>
-                <hr />
+        {recipes.map((recipe) => {
+          // State to manage visibility of reviews for this specific recipe
+          const [showReviews, setShowReviews] = useState(false);
+
+          return (
+            <div
+              key={recipe._id}
+              className="bg-white p-12 rounded-lg shadow-md m-4 text-slate-800"
+            >
+              <hr />
+              <h1 className="text-green-500">
+                Recipe
+                <button
+                  className="bg-gray-300 p-2 rounded-lg m-4 text-slate-800"
+                  onClick={() => handleRedirectToReview(recipe._id)}
+                >
+                  Review Recipe
+                </button>
+              </h1>
+              <p>Title: {recipe.title}</p>
+              <p>Desc: {recipe.description}</p>
+              <p>Ingredients: {recipe.ingredients}</p>
+              <p>Preparations: {recipe.preparation}</p>
+              <hr />
+              <p className="text-green-500">
+                Uploaded by{" "}
+                <span className="text-slate-800">
+                  {recipe.userDetails?.username}
+                </span>
+              </p>
+              <hr />
+
+              <div className="py-3">
+                <button
+                  className="bg-teal-500 text-slate-200 rounded flex items-center py-1 px-2"
+                  onClick={() => setShowReviews(!showReviews)}
+                >
+                  Reviews <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
+                </button>
               </div>
-            ))}
-          </div>
-        ))}
+
+              {showReviews && (
+                <div>
+                  {recipe?.reviews?.length > 0 ? (
+                    recipe?.reviews?.map((review) => (
+                      <Review
+                        key={review._id}
+                        title={review.review_title}
+                        description={review.review_description}
+                        rating={review.rating}
+                        date={new Date(review.createdAt).toLocaleDateString()}
+                        reviewId={review._id} // Pass the review ID
+                        reviewUsers={review?.userDetails}
+                        review_id={review._id}
+                        loginSession={session}
+                        onDelete={handleDeleteReview}
+                      />
+                    ))
+                  ) : (
+                    <p className="text-slate-800">No reviews yet</p>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       <button
         onClick={() => signOut({ callbackUrl: "http://localhost:3000/login" })}
