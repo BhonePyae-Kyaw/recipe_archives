@@ -10,6 +10,7 @@ export default function Home() {
   const { data: session, status } = useSession();
   const [recipes, setRecipes] = useState([]);
   const [users, setUsers] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
 
   const router = useRouter();
 
@@ -64,7 +65,7 @@ export default function Home() {
       <div>
         {recipes.map((recipe) => {
           // State to manage visibility of reviews for this specific recipe
-          const [showReviews, setShowReviews] = useState(false);
+          // const [showReviews, setShowReviews] = useState(false);
 
           return (
             <div
@@ -99,7 +100,8 @@ export default function Home() {
                   className="bg-teal-500 text-slate-200 rounded flex items-center py-1 px-2"
                   onClick={() => setShowReviews(!showReviews)}
                 >
-                  Reviews <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
+                  Reviews{" "}
+                  <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 ml-1" />
                 </button>
               </div>
 

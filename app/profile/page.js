@@ -105,6 +105,7 @@ export default function Home() {
           Delete Account
         </button>
       </div>
+      <div>Reviews by user</div>
     </div>
   );
 }

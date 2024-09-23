@@ -37,11 +37,13 @@ export const PATCH = async (req, { params }) => {
   try {
     await dbConnect();
 
-    // Parse the updated review data from the request body
     const updatedReviewData = await req.json();
 
-    // Ensure required fields are present
-    if (!updatedReviewData.title || !updatedReviewData.description || !updatedReviewData.rating) {
+    if (
+      !updatedReviewData.title ||
+      !updatedReviewData.description ||
+      !updatedReviewData.rating
+    ) {
       return NextResponse.json(
         { message: "Title, description, and rating are required" },
         { status: 400 }
@@ -51,10 +53,10 @@ export const PATCH = async (req, { params }) => {
     // Find and update the review by ID
     const updatedReview = await Review.findByIdAndUpdate(
       id,
-      { 
-        title: updatedReviewData.title,
-        description: updatedReviewData.description,
-        rating: updatedReviewData.rating 
+      {
+        review_title: updatedReviewData.title,
+        review_description: updatedReviewData.description,
+        rating: updatedReviewData.rating,
       },
       {
         new: true, // Return the updated document

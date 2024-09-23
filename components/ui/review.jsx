@@ -1,8 +1,7 @@
 import React from "react";
-import { useSession } from "next-auth/react"; 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Edit } from "lucide-react";
-
 
 // Review component
 export default function Review({
@@ -28,7 +27,9 @@ export default function Review({
       stars.push(
         <span
           key={i}
-          className={i <= rating ? "text-yellow-500 text-2xl" : "text-gray-300 text-2xl"}
+          className={
+            i <= rating ? "text-yellow-500 text-2xl" : "text-gray-300 text-2xl"
+          }
         >
           ★
         </span>
@@ -61,16 +62,15 @@ export default function Review({
       const encodedTitle = encodeURIComponent(title);
       const encodedDescription = encodeURIComponent(description);
       const encodedRating = rating;
-  
+
       // Ensure the path matches your actual file structure
-      router.push(`/edit/review/${review_id}?title=${encodedTitle}&description=${encodedDescription}&rating=${encodedRating}&review_id=${review_id}`);
+      router.push(
+        `/edit/review/${review_id}?title=${encodedTitle}&description=${encodedDescription}&rating=${encodedRating}&review_id=${review_id}`
+      );
     } else {
       console.error("No review_id provided!");
     }
   };
-  
-  
-  
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4 max-w-full">
@@ -86,22 +86,17 @@ export default function Review({
         </div>
         <span>{new Date(date).toLocaleDateString()}</span>
       </div>
-      
+
       {/* Title */}
       <div className="flex justify-between items-center mb-4">
         <span className="text-2xl font-semibold text-gray-800">{title}</span>
-        <div className="flex items-center">
-          {renderStars(rating)}
-        </div>
+        <div className="flex items-center">{renderStars(rating)}</div>
       </div>
-      
-      
 
       {/* Description */}
       <p className="text-gray-600 mb-6">{description}</p>
 
       {/* Rating (Stars) */}
-      
 
       {/* Action Buttons */}
       {session?.user?.id === reviewUsers?._id && (
@@ -112,15 +107,15 @@ export default function Review({
           >
             Delete Review
           </button>
-          <button 
+          <button
             onClick={() => {
               console.log("Review ID before redirect:", review_id);
               handleRedirectToEdit(title, description, rating, review_id);
             }}
-            className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500">
-              <Edit className="h-4 w-4 m-1" />
+            className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500"
+          >
+            <Edit className="h-4 w-4 m-1" />
           </button>
-
         </div>
       )}
     </div>
