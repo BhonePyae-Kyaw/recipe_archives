@@ -1,4 +1,3 @@
-// app/components/TopMenu.jsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,7 @@ export default function TopMenu() {
   return (
     <div className="flex flex-col">
       <header className="px-4 lg:px-6 h-14 flex items-center border-b">
-        <Link className="flex items-center justify-center" href="#">
+        <Link className="flex items-center justify-center" href="/">
           <ChefHat className="h-6 w-6 text-primary" />
           <span className="ml-2 text-lg font-semibold">Recipe Archives</span>
         </Link>
@@ -28,14 +27,18 @@ export default function TopMenu() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Newspaper className="mr-2 h-4 w-4" />
-                <span>Feed</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
+              <Link href="/feed">
+                <DropdownMenuItem>
+                  <Newspaper className="mr-2 h-4 w-4" />
+                  <span>Feed</span>
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/profile">
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
           <Link href="/feed">
@@ -52,12 +55,6 @@ export default function TopMenu() {
           </Link>
         </nav>
       </header>
-      {/* <main className="flex-1 p-6">
-        <h1 className="text-3xl font-bold">Welcome to Recipe Archives</h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          Discover, cook, and savor delicious recipes from around the world!
-        </p>
-      </main> */}
     </div>
   );
 }
