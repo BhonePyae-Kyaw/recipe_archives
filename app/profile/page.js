@@ -1,52 +1,127 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
-import Image from "next/image";
-import { PopoverDemo } from "@/components/EditModal";
 import { useEffect, useState } from "react";
-
-export default function Home() {
-  const { data: session, status } = useSession();
+import { PopoverDemo } from "@/components/EditModal";
+import { useRouter } from "next/navigation";
+export default function Profile() {
+  const Router = useRouter();
+  const { data: session } = useSession();
   const [user, setUser] = useState(null);
+  const [recipes, setRecipes] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [activeTab, setActiveTab] = useState("recipes");
+  
+
 
   useEffect(() => {
     if (session) {
-      // Fetch user data
       fetch(`/api/user/${session.user?.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data);
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch user data");
+          return res.json();
         })
+        .then((data) => setUser(data))
         .catch((error) => console.error("Error fetching user:", error));
     }
   }, [session]);
 
+
+  useEffect(() => {
+    if (session) {
+      fetch(`/api/recipe?userId=${session.user.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch recipes");
+          return res.json();
+        })
+        .then((data) => setRecipes(data))
+        .catch((error) => console.error("Error fetching recipes:", error));
+    }
+  }, [session]);
+
+
+  useEffect(() => {
+    if (session) {
+      fetch(`/api/review?userId=${session.user.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch reviews");
+          return res.json();
+        })
+        .then((data) => {
+          const reviewPromises = data.map((review) => {
+            if (review.recipe_id?.$oid) {
+              return fetch(`/api/recipe/${review.recipe_id.$oid}`)
+                .then((res) => res.json())
+                .then((recipe) => ({
+                  ...review,
+                  recipeTitle: recipe.recipe_title,
+                }));
+            }
+            return Promise.resolve(review);
+          });
+
+          Promise.all(reviewPromises).then(setReviews);
+        })
+        .catch((error) => console.error("Error fetching reviews:", error));
+    }
+  }, [session]);
+
   const handleDelete = async () => {
+    
     const response = await fetch("/api/user", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: user?.[0]?._id,
+        id: user?._id.$oid,
       }),
     });
 
     if (response.ok) {
       console.log("User deleted successfully");
-      signOut({ callbackUrl: "http://localhost:3000/login" });
+      signOut({ callbackUrl: window.location.origin + "/login" });
     } else {
       const errorData = await response.json();
       console.error("Error deleting user:", errorData.message);
     }
   };
 
-  console.log("User data:", user);
+  const handleDeleteRecipe = async (recipeId) => {
+    if (confirm("Are you sure you want to delete this recipe?")) {
+      const response = await fetch(`/api/recipe/${recipeId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setRecipes(recipes.filter(recipe => recipe._id.$oid !== recipeId));
+        console.log("Recipe deleted successfully");
+        window.location.reload(); 
+      } else {
+        const errorData = await response.json();
+        console.error("Error deleting recipe:", errorData.message);
+      }
+    }
+  };
+
   return (
     <div className="w-full">
       <TopMenu />
@@ -60,11 +135,10 @@ export default function Home() {
             className="rounded-full"
           />
           <div className="mt-6">
-            <PopoverDemo action={"Edit"} user={user} />{" "}
-            {/* Pass the `user` state instead of `session` */}
+            <PopoverDemo action={"Edit"} user={user} />
             <button
               onClick={() =>
-                signOut({ callbackUrl: "http://localhost:3000/login" })
+                signOut({ callbackUrl: window.location.origin + "/login" })
               }
               className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
@@ -104,6 +178,83 @@ export default function Home() {
         >
           Delete Account
         </button>
+
+        <div className="mt-4">
+          <p className="text-gray-600">
+            Current User ID: <strong>{session?.user?.id}</strong>
+          </p>
+        </div>
+
+        <div className="mt-8">
+          <div className="flex space-x-4 border-b-2 pb-2">
+            <button
+              className={`font-semibold ${
+                activeTab === "recipes" ? "border-b-2 border-blue-500" : ""
+              }`}
+              onClick={() => setActiveTab("recipes")}
+            >
+              Recipes
+            </button>
+            <button
+              className={`font-semibold ${
+                activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
+              }`}
+              onClick={() => setActiveTab("reviews")}
+            >
+              Reviews
+            </button>
+          </div>
+
+          {activeTab === "recipes" && (
+            <div className="mt-4">
+              {recipes.length > 0 ? (
+                recipes.map((recipe) => (
+                  <div key={recipe._id.$oid} className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
+                    <h2 className="text-xl font-semibold">{recipe.recipe_title}</h2>
+                    <p>{recipe.brief_description}</p>
+                    {recipe.recipe_picture && (
+                      <img src={recipe.recipe_picture} alt={recipe.recipe_title} className="mt-2" />
+                    )}
+                    <div className="mt-4 flex space-x-2">
+                      <button
+                        onClick={() => window.location.href = `/edit/recipe/${recipe._id}`}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRecipe(recipe._id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No recipes found.</p>
+              )}
+            </div>
+          )}
+
+          {activeTab === "reviews" && (
+            <div className="mt-4">
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div key={review._id.$oid} className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
+                    <h2 className="text-xl font-semibold">{review.recipeTitle}</h2>
+                    <p>{review.review_description}</p>
+                    {review.review_picture && (
+                      <img src={review.review_picture} alt={review.recipeTitle} className="mt-2" />
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No reviews found.</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
