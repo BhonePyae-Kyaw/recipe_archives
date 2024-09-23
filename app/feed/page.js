@@ -3,7 +3,6 @@ import { signOut, useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Review from "@/components/ui/review";
 import { ReceiptCent, Star } from "lucide-react";
 
 export default function Home() {
@@ -91,7 +90,7 @@ export default function Home() {
           >
             <div className="flex-1 overflow-hidden pr-4 recipe-info">
               <h1 className="text-green-500 text-xl font-semibold">
-                {recipe.recipe_title}
+                {recipe.title}
                 <button
                   className="bg-green-500 text-white p-1 rounded-lg ml-4 hover:bg-green-600 transition"
                   onClick={() => handleRedirectToReview(recipe._id)}
@@ -99,8 +98,9 @@ export default function Home() {
                   Write a Review
                 </button>
               </h1>
+              {/* <p>{JSON.stringify(recipe)}</p> */}
               <p>
-                <strong>Description:</strong> {recipe.brief_description}
+                <strong>Description:</strong> {recipe.description}
               </p>
               <p>
                 <strong>Ingredients:</strong> {recipe.ingredients}
@@ -110,7 +110,7 @@ export default function Home() {
               </p>
               <hr className="my-4" />
               <h1 className="text-green-500">Uploaded by</h1>
-              <p>{recipe.userDetails[0]?.username}</p>
+              <p>{recipe.userDetails.username}</p>
             </div>
 
             <div className="w-1/3 ml-4 flex flex-col reviews-section overflow-y-auto hide-scrollbar">
