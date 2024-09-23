@@ -3,9 +3,11 @@ import { signOut, useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Review from "@/components/ui/review";
+import { ReceiptCent, Star } from "lucide-react";
 
-export default function Feed() {
-  const { data: session } = useSession();
+export default function Home() {
+  const { data: session, status } = useSession();
   const [recipes, setRecipes] = useState([]);
   const [users, setUsers] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
@@ -58,6 +60,17 @@ export default function Feed() {
   const handleRedirectToReview = (id) => {
     router.push(`create/review/${id}`);
   };
+
+  const handleDeleteReview = (reviewId) => {
+    setRecipes((prevRecipes) =>
+      prevRecipes.map((recipe) => ({
+        ...recipe,
+        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+      }))
+    );
+  };
+
+  console.log(recipes);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">

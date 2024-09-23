@@ -27,7 +27,7 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-});
+},  { timestamps: true }); // Adds createdAt and updatedAt fields
 
 const Review = mongoose.models.review || mongoose.model("review", reviewSchema);
 
