@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 export default function Feed() {
   const { data: session } = useSession();
   const [recipes, setRecipes] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
+
   const router = useRouter();
   const recipeRefs = useRef([]);
 
@@ -34,7 +37,8 @@ export default function Feed() {
     const updateReviewsHeight = () => {
       recipeRefs.current.forEach((ref) => {
         if (ref) {
-          const recipeInfoHeight = ref.querySelector(".recipe-info").offsetHeight;
+          const recipeInfoHeight =
+            ref.querySelector(".recipe-info").offsetHeight;
           const reviewsSection = ref.querySelector(".reviews-section");
           reviewsSection.style.maxHeight = `${recipeInfoHeight}px`;
         }
@@ -72,7 +76,6 @@ export default function Feed() {
             className="bg-white p-6 rounded-lg shadow-lg text-slate-800 flex"
             ref={(el) => (recipeRefs.current[index] = el)}
           >
-            
             <div className="flex-1 overflow-hidden pr-4 recipe-info">
               <h1 className="text-green-500 text-xl font-semibold">
                 {recipe.recipe_title}
@@ -83,23 +86,37 @@ export default function Feed() {
                   Write a Review
                 </button>
               </h1>
-              <p><strong>Description:</strong> {recipe.brief_description}</p>
-              <p><strong>Ingredients:</strong> {recipe.ingredients}</p>
-              <p><strong>Preparation:</strong> {recipe.preparation}</p>
+              <p>
+                <strong>Description:</strong> {recipe.brief_description}
+              </p>
+              <p>
+                <strong>Ingredients:</strong> {recipe.ingredients}
+              </p>
+              <p>
+                <strong>Preparation:</strong> {recipe.preparation}
+              </p>
               <hr className="my-4" />
               <h1 className="text-green-500">Uploaded by</h1>
               <p>{recipe.userDetails[0]?.username}</p>
             </div>
 
-            
             <div className="w-1/3 ml-4 flex flex-col reviews-section overflow-y-auto hide-scrollbar">
               <h1 className="text-green-500 mb-2">Reviews</h1>
               <div className="flex-1">
                 {recipe.reviews.length > 0 ? (
                   recipe.reviews.map((review, reviewIndex) => (
-                    <div key={review._id} className={`p-2 mb-2 bg-gray-50 rounded-md border border-gray-200 ${reviewIndex < 3 ? '' : 'hidden'}`}>
-                      <p><strong>Review:</strong> {review.review_description}</p>
-                      <p><strong>Rating:</strong> {review.rating}</p>
+                    <div
+                      key={review._id}
+                      className={`p-2 mb-2 bg-gray-50 rounded-md border border-gray-200 ${
+                        reviewIndex < 3 ? "" : "hidden"
+                      }`}
+                    >
+                      <p>
+                        <strong>Review:</strong> {review.review_description}
+                      </p>
+                      <p>
+                        <strong>Rating:</strong> {review.rating}
+                      </p>
                     </div>
                   ))
                 ) : (
