@@ -87,7 +87,7 @@ export default function Edit() {
     <div>
       <TopMenu />
       <div className="max-w-lg mx-auto my-8 p-4 rounded-md shadow-md bg-white">
-        <h1 className="text-2xl font-semibold text-center mb-4">Edit Your Review</h1>
+        <h1 className="text-2xl font-semibold text-center mb-4 text-cyan-700">Edit Your Review</h1>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -147,7 +147,7 @@ export default function Edit() {
             />
 
             {/* Submit Button */}
-            <Button type="submit" variant="default" className="w-full">
+            <Button type="submit" variant="default" className="w-full bg-cyan-800 hover:bg-cyan-500">
               Update Review
             </Button>
           </form>

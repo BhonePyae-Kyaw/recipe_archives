@@ -273,10 +273,10 @@ export default function Home() {
       <TopMenu />
       <h1 className="text-3xl font-bold mb-6 text-center">Recipe Feed</h1>
       <button
-        className="p-2 bg-blue-500 text-white rounded-lg mb-6 hover:bg-blue-600 transition"
+        className="p-2 bg-cyan-700 text-white rounded-lg mb-6 hover:bg-cyan-500 transition"
         onClick={handleRedirect}
       >
-        Create Recipe
+        Create Recipe!
       </button>
       <div>
         {recipes.map((recipe, index) => (
@@ -286,13 +286,13 @@ export default function Home() {
             ref={(el) => (recipeRefs.current[index] = el)}
           >
             <div className="flex-1  pr-4">
-              <h1 className="text-green-500 text-xl font-semibold">
+              <h1 className="text-cyan-700 text-2xl font-bold">
                 {recipe.title}
-                <button
-                  className="bg-green-500 text-white p-1 rounded-lg ml-4 hover:bg-green-600 transition"
+                <button 
+                  className="bg-cyan-700 text-white text-sm py-1 px-2 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition"
                   onClick={() => handleRedirectToReview(recipe._id)}
                 >
-                  Write a Review
+                  Review
                 </button>
               </h1>
               {/* <p>{JSON.stringify(recipe)}</p> */}
@@ -306,12 +306,13 @@ export default function Home() {
                 <strong>Preparation:</strong> {recipe.preparation}
               </p>
               <hr className="my-4" />
-              <h1 className="text-green-500">Uploaded by</h1>
+              <h1 className="text-cyan-700 font-medium text-lg">Uploaded by</h1>
               <p>{recipe.userDetails.username}</p>
             </div>
 
             <div className="ml-4 flex flex-col reviews-section">
-              <h1 className="text-green-500 mb-2">Reviews</h1>
+              {/* <h1 className="text-cyan-700 mb-2">Reviews</h1> */}
+              <hr className="my-4" />
               <div className="flex-1">
                 {recipe.reviews.length > 0 ? (
                   recipe.reviews.map((review, reviewIndex) => (
@@ -326,10 +327,20 @@ export default function Home() {
                       review_id={review._id}
                       loginSession={session}
                       onDelete={handleDeleteReview}
+                      details={false}
                     />
                   ))
+                  
                 ) : (
                   <p>No reviews available for this recipe.</p>
+                )}
+                {recipe?.reviews?.length > 0 && (
+                  <button
+                    className="bg-cyan-700 hover:bg-cyan-500 text-white px-2 py-1 text-sm rounded-sm my-2"
+                    onClick={() => router.push(`/review/${recipe._id}`)}
+                  >
+                    View More
+                  </button>
                 )}
               </div>
             </div>
@@ -338,7 +349,7 @@ export default function Home() {
       </div>
       <button
         onClick={() => signOut({ callbackUrl: "http://localhost:3000/login" })}
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 transition"
+        className="bg-rose-500 hover:bg-rose-800 text-white font-bold py-2 px-4 rounded mt-4 transition"
       >
         Sign Out
       </button>

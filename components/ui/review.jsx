@@ -14,6 +14,7 @@ export default function Review({
   reviewUsers,
   loginSession,
   onDelete,
+  details,
 }) {
   console.log("User details:", reviewUsers);
   console.log(loginSession);
@@ -73,22 +74,22 @@ export default function Review({
   
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-4 max-w-full">
+    <div className="bg-white shadow-md rounded-lg p-6 mb-3 max-w-ful ">
       {/* User Info and Date */}
-      <div className="flex justify-between items-center text-sm text-black-500 mb-6">
+      <div className="flex justify-between items-center text-sm text-black-500 mb-4">
         <div className="flex items-center">
           <img
             src={reviewUsers?.image}
             alt={"reviewUsers?.username"}
             className="w-8 h-8 rounded-full mr-2"
           />
-          <span className="font-bold text-xl ">{reviewUsers?.username}</span>
+          <span className="font-bold text-lg ">{reviewUsers?.username}</span>
         </div>
         <span>{new Date(date).toLocaleDateString()}</span>
       </div>
       
       {/* Title */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <span className="text-2xl font-semibold text-gray-800">{title}</span>
         <div className="flex items-center">
           {renderStars(rating)}
@@ -98,31 +99,45 @@ export default function Review({
       
 
       {/* Description */}
-      <p className="text-gray-600 mb-6">{description}</p>
+      {details && <p className="text-gray-600 mb-2">{description}</p>}
+
 
       {/* Rating (Stars) */}
       
 
       {/* Action Buttons */}
-      {session?.user?.id === reviewUsers?._id && (
-        <div className="flex justify-end space-x-2">
-          <button
-            onClick={handleDelete}
-            className="bg-red-950 text-white text-sm py-1 px-2 rounded hover:bg-red-600"
-          >
-            Delete Review
-          </button>
+      <div className="flex justify-between pt-2">
+        {/* Non-conditional button */}
+        <div className="flex justify-start">
           <button 
-            onClick={() => {
-              console.log("Review ID before redirect:", review_id);
-              handleRedirectToEdit(title, description, rating, review_id);
-            }}
-            className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500">
-              <Edit className="h-4 w-4 m-1" />
+            className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
+            
+          >
+            Details
           </button>
-
         </div>
-      )}
+
+        {/* Conditional Buttons */}
+        {session?.user?.id === reviewUsers?._id && (
+          <div className="flex justify-end space-x-2">
+            <button
+              onClick={handleDelete}
+              className="bg-rose-800 text-white text-sm py-1 px-2 rounded hover:bg-rose-600"
+            >
+              Delete Review
+            </button>
+            <button 
+              onClick={() => {
+                console.log("Review ID before redirect:", review_id);
+                handleRedirectToEdit(title, description, rating, review_id);
+              }}
+              className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500">
+              <Edit className="h-4 w-4 m-1" />
+            </button>
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

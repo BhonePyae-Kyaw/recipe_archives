@@ -54,7 +54,7 @@ export default function Create() {
     <div className="min-h-screen bg-gray-100 p-6">
       <TopMenu />
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6">Create Recipe</h1>
+        <h1 className="text-2xl font-bold mb-6 text-cyan-700">Create Recipe</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
             { label: "Recipe Title", name: "recipe_title", type: "text", required: true },
@@ -79,7 +79,7 @@ export default function Create() {
           ))}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-semibold rounded-lg py-2 hover:bg-blue-600 transition duration-200"
+            className="w-full bg-cyan-800 text-white font-semibold rounded-lg py-2 hover:bg-cyan-500 transition duration-200"
           >
             Submit
           </button>

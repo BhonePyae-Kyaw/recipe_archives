@@ -73,7 +73,7 @@ export default function Create() {
       <h1>Logged in user name: {session?.user?.username}</h1> */}
 
       <div className="max-w-lg mx-auto my-8 p-4 rounded-md shadow-md bg-white">
-        <h1 className="text-2xl font-semibold text-center mb-4">
+        <h1 className="text-2xl font-semibold text-center mb-4 text-cyan-700">
           Submit Your Review
         </h1>
 
@@ -136,7 +136,7 @@ export default function Create() {
             />
 
             {/* Submit Button */}
-            <Button type="submit" variant="default" className="w-full">
+            <Button type="submit" variant="default" className="w-full bg-cyan-800 hover:bg-cyan-500">
               Submit Review
             </Button>
           </form>
