@@ -315,19 +315,21 @@ export default function Home() {
               <hr className="my-4" />
               <div className="flex-1">
                 {recipe.reviews.length > 0 ? (
-                  recipe.reviews.map((review, reviewIndex) => (
+                  recipe.reviews.map((review) => (
                     <Review
                       key={review._id}
                       title={review.review_title}
                       description={review.review_description}
                       rating={review.rating}
                       date={new Date(review.createdAt).toLocaleDateString()}
-                      reviewId={review._id} // Pass the review ID
-                      reviewUsers={review?.userDetails}
+                      reviewUserName={review?.userDetails.username}
+                      reviewUserImage={review?.userDetails.image}
+                      reviewUserId={review?.userDetails._id}
                       review_id={review._id}
                       loginSession={session}
                       onDelete={handleDeleteReview}
                       details={false}
+                      profile={false}
                     />
                   ))
                   

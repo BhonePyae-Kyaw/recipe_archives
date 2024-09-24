@@ -11,12 +11,15 @@ export default function Review({
   description,
   date,
   rating,
-  reviewUsers,
   loginSession,
   onDelete,
   details,
+  reviewUserName,
+  reviewUserImage,
+  reviewUserId,
+  profile,
 }) {
-  console.log("User details:", reviewUsers);
+  console.log("User details:", reviewUserName);
   console.log(loginSession);
 
   const { data: session } = useSession();
@@ -79,11 +82,11 @@ export default function Review({
       <div className="flex justify-between items-center text-sm text-black-500 mb-4">
         <div className="flex items-center">
           <img
-            src={reviewUsers?.image}
-            alt={"reviewUsers?.username"}
+            src={reviewUserImage}
+            alt={"reviewUserName"}
             className="w-8 h-8 rounded-full mr-2"
           />
-          <span className="font-bold text-lg ">{reviewUsers?.username}</span>
+          <span className="font-bold text-lg ">{reviewUserName}</span>
         </div>
         <span>{new Date(date).toLocaleDateString()}</span>
       </div>
@@ -111,14 +114,13 @@ export default function Review({
         <div className="flex justify-start">
           <button 
             className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
-            
           >
             Details
           </button>
         </div>
 
         {/* Conditional Buttons */}
-        {session?.user?.id === reviewUsers?._id && (
+        {session?.user?.id === reviewUserId && (
           <div className="flex justify-end space-x-2">
             <button
               onClick={handleDelete}

@@ -4,6 +4,8 @@ import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
 import { PopoverDemo } from "@/components/EditModal";
 import { useRouter } from "next/navigation";
+import Review from "@/components/ui/review";
+
 export default function Profile() {
   const Router = useRouter();
   const { data: session } = useSession();
@@ -78,7 +80,7 @@ export default function Profile() {
           Promise.all(reviewPromises).then(setReviews);
         })
         .catch((error) => console.error("Error fetching reviews:", error));
-    }
+    }console.log("Reviews:", reviews);
   }, [session]);
 
   const handleDelete = async () => {
@@ -120,6 +122,15 @@ export default function Profile() {
         console.error("Error deleting recipe:", errorData.message);
       }
     }
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    setRecipes((prevRecipes) =>
+      prevRecipes.map((recipe) => ({
+        ...recipe,
+        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+      }))
+    );
   };
 
   return (
@@ -237,23 +248,34 @@ export default function Profile() {
             </div>
           )}
 
-          {activeTab === "reviews" && (
-            <div className="mt-4">
-              {reviews.length > 0 ? (
-                reviews.map((review) => (
-                  <div key={review._id.$oid} className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
-                    <h2 className="text-xl font-semibold">{review.recipeTitle}</h2>
-                    <p>{review.review_description}</p>
-                    {review.review_picture && (
-                      <img src={review.review_picture} alt={review.recipeTitle} className="mt-2" />
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p>No reviews found.</p>
-              )}
-            </div>
-          )}
+{activeTab === "reviews" && (
+  <div className="mt-4">
+    {reviews.length > 0 ? (
+      reviews
+        .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
+        .map((review) => (
+          <Review
+            key={review._id}
+            title={review.review_title}
+            description={review.review_description}
+            rating={review.rating}
+            date={new Date(review.createdAt).toLocaleDateString()}
+            reviewUserName={session?.user?.username}
+            reviewUserImage={review?.image}
+            reviewUserId={review.user_id}
+            review_id={review._id}
+            loginSession={session}
+            onDelete={handleDeleteReview}
+            details={false}
+            profile={true}
+          />
+        ))
+    ) : (
+      <p>No reviews found.</p>
+    )}
+  </div>
+)}
+
         </div>
       </div>
     </div>
