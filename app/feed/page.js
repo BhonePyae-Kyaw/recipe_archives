@@ -89,13 +89,26 @@ export default function Home() {
               </div>
               <h1 className="text-cyan-700 text-2xl font-bold">
                 {recipe.title}
+  
+                
+                <div className="mt-3">
                 {recipe.user_id !== session.user.id && ( // Show button only if the user IDs are not equal
                   <button
-                    className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-xl"
+                    className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-m"
                     onClick={() => handleRedirectToReview(recipe._id)}
                   >
                     Write a review
                   </button>
+                <button
+                  className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-m"
+                  onClick={() =>
+                    (window.location.href = `recipe/${recipe._id}`)
+                  }
+                >
+                  View Details
+                </button>
+                </div>
+                
                 )}
               </h1>
 

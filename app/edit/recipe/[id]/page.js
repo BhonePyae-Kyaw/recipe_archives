@@ -61,7 +61,7 @@ export default function EditRecipe({ params }) {
 
     if (response.ok) {
       alert("Recipe updated successfully!");
-      router.push("/profile"); 
+      router.back(); 
     } else {
       const errorData = await response.json();
       console.error("Error updating recipe:", errorData.message);

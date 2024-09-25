@@ -1,7 +1,7 @@
 "use client";
 import TopMenu from "@/components/TopMenu";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { CldUploadButton, CldImage } from "next-cloudinary";
 
@@ -18,18 +18,22 @@ export default function Create() {
     recipe_picture: "",
   });
 
+  
+  const formRef = useRef(formData);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
+    formRef.current = { ...formRef.current, [name]: value }; 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const dataToSubmit = { ...formData, user_id: session?.user?.id };
+    const dataToSubmit = { ...formRef.current, user_id: session?.user?.id };
 
     try {
       const response = await fetch("/api/recipe", {
@@ -53,15 +57,13 @@ export default function Create() {
 
   const handleUploadSuccess = (result) => {
     const { event, info } = result;
-    console.log("event", event);
-    console.log("info", info);
     if (event === "success") {
       const publicId = info.public_id;
-      setFormData({
-        ...formData,
+      setFormData((prevData) => ({
+        ...prevData,
         recipe_picture: publicId,
-      });
-      alert("Image uploaded successfully!");
+      }));
+      formRef.current = { ...formRef.current, recipe_picture: publicId }; // Persist image URL in ref
     }
   };
 
@@ -71,8 +73,7 @@ export default function Create() {
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold mb-6 text-cyan-700">Create Recipe</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {[
-            {
+          {[{
               label: "Recipe Title",
               name: "recipe_title",
               type: "text",
@@ -106,7 +107,7 @@ export default function Create() {
               name: "preparation",
               type: "text",
               required: true,
-            },
+            }
           ].map(({ label, name, type, required }) => (
             <div key={name} className="flex flex-col">
               <label className="font-semibold mb-1">{label}:</label>
