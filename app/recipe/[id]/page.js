@@ -92,12 +92,12 @@ export default function RecipePage({ params }) {
         
 
         <div className="mt-6">
-          <button
+          {/* <button
             onClick={() => router.push(`/edit/recipe/${params.id}`)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           >
             Edit Recipe
-          </button>
+          </button> */}
           
           <button
             onClick={() => router.back()}
