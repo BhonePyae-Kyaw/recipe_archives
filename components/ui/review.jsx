@@ -1,11 +1,11 @@
 import React from "react";
-import { useSession } from "next-auth/react"; 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Edit } from "lucide-react";
 
-
 // Review component
 export default function Review({
+  recipe_id,
   review_id,
   title,
   description,
@@ -32,7 +32,9 @@ export default function Review({
       stars.push(
         <span
           key={i}
-          className={i <= rating ? "text-yellow-500 text-2xl" : "text-gray-300 text-2xl"}
+          className={
+            i <= rating ? "text-yellow-500 text-2xl" : "text-gray-300 text-2xl"
+          }
         >
           ★
         </span>
@@ -65,16 +67,15 @@ export default function Review({
       const encodedTitle = encodeURIComponent(title);
       const encodedDescription = encodeURIComponent(description);
       const encodedRating = rating;
-  
+
       // Ensure the path matches your actual file structure
-      router.push(`/edit/review/${review_id}?title=${encodedTitle}&description=${encodedDescription}&rating=${encodedRating}&review_id=${review_id}`);
+      router.push(
+        `/edit/review/${review_id}?title=${encodedTitle}&description=${encodedDescription}&rating=${encodedRating}&review_id=${review_id}`
+      );
     } else {
       console.error("No review_id provided!");
     }
   };
-  
-  
-  
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-3 max-w-ful ">
@@ -82,7 +83,11 @@ export default function Review({
       <div className="flex justify-between items-center text-sm text-black-500 mb-4">
         <div className="flex items-center">
           <img
-            src={reviewUserImage}
+            src={
+              reviewUserImage == ""
+                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAd5avdba8EiOZH8lmV3XshrXx7dKRZvhx-A&s"
+                : reviewUserImage
+            }
             alt={"reviewUserName"}
             className="w-8 h-8 rounded-full mr-2"
           />
@@ -90,34 +95,33 @@ export default function Review({
         </div>
         <span>{new Date(date).toLocaleDateString()}</span>
       </div>
-      
+
       {/* Title */}
       <div className="flex justify-between items-center mb-2">
         <span className="text-2xl font-semibold text-gray-800">{title}</span>
-        <div className="flex items-center">
-          {renderStars(rating)}
-        </div>
+        <div className="flex items-center">{renderStars(rating)}</div>
       </div>
-      
-      
 
       {/* Description */}
       {details && <p className="text-gray-600 mb-2">{description}</p>}
 
-
       {/* Rating (Stars) */}
-      
 
       {/* Action Buttons */}
       <div className="flex justify-between pt-2">
         {/* Non-conditional button */}
         <div className="flex justify-start">
+        {!details && ( // Check if details is false
           <button 
+            onClick={() => {
+              router.push(`/review/${recipe_id}?recipeId=${recipe_id}&reviewId=${review_id}`);
+            }}
             className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
           >
             Details
           </button>
-        </div>
+        )}
+      </div>
 
         {/* Conditional Buttons */}
         {session?.user?.id === reviewUserId && (
@@ -128,18 +132,18 @@ export default function Review({
             >
               Delete Review
             </button>
-            <button 
+            <button
               onClick={() => {
                 console.log("Review ID before redirect:", review_id);
                 handleRedirectToEdit(title, description, rating, review_id);
               }}
-              className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500">
+              className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500"
+            >
               <Edit className="h-4 w-4 m-1" />
             </button>
           </div>
         )}
       </div>
-
     </div>
   );
 }

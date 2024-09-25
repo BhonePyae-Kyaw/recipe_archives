@@ -48,6 +48,7 @@ export const GET = async () => {
           description: { $first: "$brief_description" },
           preparation: { $first: "$preparation" },
           ingredients: { $first: "$ingredients" },
+          recipe_picture: { $first: "$recipe_picture" },
           user_id: { $first: "$user_id" },
           reviews: { $push: "$reviews" }, // Push reviews back into an array
         },
@@ -65,7 +66,7 @@ export const GET = async () => {
       },
       {
         $addFields: {
-          reviews: { $slice: ["$reviews", 3] }, // Limit reviews to 3
+          reviews: "$reviews", // Limit reviews to 3
         },
       },
       {

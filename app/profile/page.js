@@ -13,8 +13,6 @@ export default function Profile() {
   const [recipes, setRecipes] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [activeTab, setActiveTab] = useState("recipes");
-  
-
 
   useEffect(() => {
     if (session) {
@@ -33,7 +31,6 @@ export default function Profile() {
     }
   }, [session]);
 
-
   useEffect(() => {
     if (session) {
       fetch(`/api/recipe?userId=${session.user.id}`, {
@@ -50,7 +47,6 @@ export default function Profile() {
         .catch((error) => console.error("Error fetching recipes:", error));
     }
   }, [session]);
-
 
   useEffect(() => {
     if (session) {
@@ -80,11 +76,12 @@ export default function Profile() {
           Promise.all(reviewPromises).then(setReviews);
         })
         .catch((error) => console.error("Error fetching reviews:", error));
-    }console.log("Reviews:", reviews);
+    }
   }, [session]);
 
   const handleDelete = async () => {
-    
+    alert("Are you sure you want to delete your account?");
+
     const response = await fetch("/api/user", {
       method: "DELETE",
       headers: {
@@ -114,9 +111,9 @@ export default function Profile() {
       });
 
       if (response.ok) {
-        setRecipes(recipes.filter(recipe => recipe._id.$oid !== recipeId));
+        setRecipes(recipes.filter((recipe) => recipe._id.$oid !== recipeId));
         console.log("Recipe deleted successfully");
-        window.location.reload(); 
+        window.location.reload();
       } else {
         const errorData = await response.json();
         console.error("Error deleting recipe:", errorData.message);
@@ -128,10 +125,18 @@ export default function Profile() {
     setRecipes((prevRecipes) =>
       prevRecipes.map((recipe) => ({
         ...recipe,
-        reviews: recipe.reviews.filter((review) => review._id !== reviewId),
+        // Check if reviews is an array; if not, default to an empty array to prevent errors
+        reviews: Array.isArray(recipe.reviews)
+          ? recipe.reviews.filter((review) => {
+              const reviewIdString = review._id?.$oid || review._id;
+              return reviewIdString !== reviewId;
+            })
+          : [],
       }))
     );
   };
+  
+  
 
   return (
     <div className="w-full">
@@ -220,15 +225,26 @@ export default function Profile() {
             <div className="mt-4">
               {recipes.length > 0 ? (
                 recipes.map((recipe) => (
-                  <div key={recipe._id.$oid} className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm">
-                    <h2 className="text-xl font-semibold">{recipe.recipe_title}</h2>
+                  <div
+                    key={recipe._id.$oid}
+                    className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
+                  >
+                    <h2 className="text-xl font-semibold">
+                      {recipe.recipe_title}
+                    </h2>
                     <p>{recipe.brief_description}</p>
                     {recipe.recipe_picture && (
-                      <img src={recipe.recipe_picture} alt={recipe.recipe_title} className="mt-2" />
+                      <img
+                        src={recipe.recipe_picture}
+                        alt={recipe.recipe_title}
+                        className="mt-2"
+                      />
                     )}
                     <div className="mt-4 flex space-x-2">
                       <button
-                        onClick={() => window.location.href = `/edit/recipe/${recipe._id}`}
+                        onClick={() =>
+                          (window.location.href = `/edit/recipe/${recipe._id}`)
+                        }
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
                       >
                         Edit
@@ -248,34 +264,51 @@ export default function Profile() {
             </div>
           )}
 
-{activeTab === "reviews" && (
-  <div className="mt-4">
-    {reviews.length > 0 ? (
-      reviews
-        .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
-        .map((review) => (
-          <Review
-            key={review._id}
-            title={review.review_title}
-            description={review.review_description}
-            rating={review.rating}
-            date={new Date(review.createdAt).toLocaleDateString()}
-            reviewUserName={session?.user?.username}
-            reviewUserImage={review?.image}
-            reviewUserId={review.user_id}
-            review_id={review._id}
-            loginSession={session}
-            onDelete={handleDeleteReview}
-            details={false}
-            profile={true}
-          />
-        ))
-    ) : (
-      <p>No reviews found.</p>
-    )}
-  </div>
-)}
+          {activeTab === "reviews" && (
+            <div className="mt-4">
+              {reviews.length > 0 ? (
+                reviews
+                  .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
+                  .map((review) => (
+                    <div
+                      key={review._id.$oid || review._id}
+                      className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
+                    >
+                      <h2 className="text-xl font-semibold">
+                        {review.recipeTitle}
+                      </h2>
+                      {/* <p>{review.review_description}</p> */}
+                      {review.review_picture && (
+                        <img
+                          src={review.review_picture}
+                          alt={review.recipeTitle}
+                          className="mt-2"
+                        />
+                      )}
+                      <Review
+                        key={review._id}
+                        title={review.review_title}
+                        description={review.review_description}
+                        rating={review.rating}
+                        date={new Date(review.createdAt).toLocaleDateString()}
+                        reviewUserName={session?.user?.username}
+                        reviewUserImage={review?.image}
+                        reviewUserId={review.user_id}
+                        recipe_id={review.recipe_id}
+                        review_id={review._id}
+                        loginSession={session}
+                        onDelete={handleDeleteReview}
+                        details={false}
+                        profile={true}
+                      />
+                    </div>
+                  ))
+              ) : (
+                <p>No reviews found.</p>
+              )}
 
+            </div>
+          )}
         </div>
       </div>
     </div>
