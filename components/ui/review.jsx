@@ -18,12 +18,11 @@ export default function Review({
   reviewUserImage,
   reviewUserId,
   profile,
+  page,
 }) {
-  console.log("User details:", reviewUserName);
-  console.log(loginSession);
-
   const { data: session } = useSession();
   const router = useRouter();
+  console.log(page);
 
   // Function to render stars based on the rating
   const renderStars = (rating) => {
@@ -111,20 +110,22 @@ export default function Review({
       <div className="flex justify-between pt-2">
         {/* Non-conditional button */}
         <div className="flex justify-start">
-        {!details && ( // Check if details is false
-          <button 
-            onClick={() => {
-              router.push(`/review/${recipe_id}?recipeId=${recipe_id}&reviewId=${review_id}`);
-            }}
-            className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
-          >
-            Details
-          </button>
-        )}
-      </div>
+          {!details && ( // Check if details is false
+            <button
+              onClick={() => {
+                router.push(
+                  `/review/${recipe_id}?recipeId=${recipe_id}&reviewId=${review_id}`
+                );
+              }}
+              className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
+            >
+              Details
+            </button>
+          )}
+        </div>
 
         {/* Conditional Buttons */}
-        {session?.user?.id === reviewUserId && (
+        {session?.user?.id === reviewUserId && page != "other profile" && (
           <div className="flex justify-end space-x-2">
             <button
               onClick={handleDelete}

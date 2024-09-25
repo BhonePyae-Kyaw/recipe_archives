@@ -36,7 +36,7 @@ export default function Home() {
   useEffect(() => {
     getRecipes();
   }, []);
-
+  console.log(recipes);
   const handleRedirect = () => {
     router.push("/create/recipe");
   };
@@ -73,18 +73,19 @@ export default function Home() {
             className="bg-white p-6 m-4 rounded-lg shadow-lg text-slate-800 flex"
             ref={(el) => (recipeRefs.current[index] = el)}
           >
-            <div className="pr-4">
+            <div className="pr-4 w-1/2">
               <div>
                 <CldImage
                   src={
-                    recipe.recipe_picture != ""
+                    recipe.recipe_picture
                       ? recipe.recipe_picture
-                      : "https://res-console.cloudinary.com/dr22j6tar/media_explorer_thumbnails/0e3bdaec01c04842bb461d16525866ef/detailed"
+                      : "https://res.cloudinary.com/dr22j6tar/image/upload/v1727199860/samples/coffee.jpg"
                   }
                   alt="recipe picture"
                   width="500"
                   height="500"
-                  className="rounded-lg max-w-[500px] max-h-[500px] object-cover object-center mb-4 mt-2"
+                  className="rounded-lg max-w-[500px] max-h-[500px] object-cover
+                object-center mb-4 mt-2"
                 />
               </div>
               <h1 className="text-cyan-700 text-2xl font-bold">
@@ -101,13 +102,14 @@ export default function Home() {
                   )}
                   <button
                     className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-m"
-                    onClick={() => (window.location.href = `recipe/${recipe._id}`)}
+                    onClick={() =>
+                      (window.location.href = `recipe/${recipe._id}`)
+                    }
                   >
                     View Details
                   </button>
                 </div>
               </h1>
-
 
               {/* <p>{JSON.stringify(recipe)}</p> */}
               <p className="text-lg mt-2">
@@ -116,12 +118,19 @@ export default function Home() {
               <p className="text-lg mt-2">
                 <strong>Ingredients:</strong> {recipe.ingredients}
               </p>
-              <p className="text-lg mt-2">
+              {/* <p className="text-lg mt-2">
                 <strong>Preparation:</strong> {recipe.preparation}
-              </p>
+              </p> */}
               <hr className="my-4" />
               <h1 className="text-cyan-700 font-medium text-lg">Uploaded by</h1>
-              <p>{recipe.userDetails.username}</p>
+              <p
+                onClick={() =>
+                  router.push(`/profile/${recipe.userDetails._id}`)
+                }
+                className="text-lg mt-2 cursor-pointer text-cyan-700 hover:underline font-semibold"
+              >
+                {recipe.userDetails.username}
+              </p>
             </div>
 
             <div className="ml-4 w-full flex flex-col reviews-section">
@@ -132,38 +141,41 @@ export default function Home() {
                 <div className="flex-1">
                   {recipe.reviews.length > 0 ? (
                     // Limit displayed reviews to the first 3 using slice
-                    recipe.reviews.slice(0, 3).map((review) => (
-                      <Review
-                        key={review._id}
-                        title={review.review_title}
-                        description={review.review_description}
-                        rating={review.rating}
-                        date={new Date(review.createdAt).toLocaleDateString()}
-                        reviewUserName={review?.userDetails.username}
-                        reviewUserImage={review?.userDetails.image}
-                        reviewUserId={review?.userDetails._id}
-                        recipe_id={recipe._id}
-                        review_id={review._id}
-                        loginSession={session}
-                        onDelete={handleDeleteReview}
-                        details={false}
-                        profile={false}
-                      />
-                    ))
+                    recipe.reviews
+                      .slice(0, 3)
+                      .map((review) => (
+                        <Review
+                          key={review._id}
+                          title={review.review_title}
+                          description={review.review_description}
+                          rating={review.rating}
+                          date={new Date(review.createdAt).toLocaleDateString()}
+                          reviewUserName={review?.userDetails.username}
+                          reviewUserImage={review?.userDetails.ProfilePicture}
+                          reviewUserId={review?.userDetails._id}
+                          recipe_id={recipe._id}
+                          review_id={review._id}
+                          loginSession={session}
+                          onDelete={handleDeleteReview}
+                          details={false}
+                          profile={false}
+                        />
+                      ))
                   ) : (
                     <p>No reviews available for this recipe yet.</p>
                   )}
                   {recipe?.reviews?.length > 2 && (
                     <button
                       className="bg-cyan-700 hover:bg-cyan-500 text-white px-2 py-1 text-sm rounded-sm my-2"
-                      onClick={() => router.push(`/review?recipeId=${recipe._id}`)} // Pass recipe._id as a query param
+                      onClick={() =>
+                        router.push(`/review?recipeId=${recipe._id}`)
+                      } // Pass recipe._id as a query param
                     >
                       View More
                     </button>
                   )}
                 </div>
               </div>
-
             </div>
           </div>
         ))}

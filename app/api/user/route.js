@@ -1,5 +1,7 @@
 import dbConnect from "@/lib/db";
 import User from "@/models/user";
+import Review from "@/models/review";
+import Recipe from "@/models/recipe";
 import { NextResponse } from "next/server";
 export const GET = async () => {
   try {
@@ -52,6 +54,10 @@ export const DELETE = async (request) => {
     const { id } = body;
     console.log(body);
     await User.findByIdAndDelete(id);
+
+    // Deleting all reviews and recipes associated with the user
+    await Review.deleteMany({ user_id: id });
+    await Recipe.deleteMany({ user_id: id });
     return new NextResponse(JSON.stringify({ message: "User deleted" }), {
       status: 200,
     });

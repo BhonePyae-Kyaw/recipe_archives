@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-
 export default function Create() {
   const { id } = useParams(); // Get recipe ID from URL
   const { data: session } = useSession(); // Get session details
@@ -136,7 +135,11 @@ export default function Create() {
             />
 
             {/* Submit Button */}
-            <Button type="submit" variant="default" className="w-full bg-cyan-800 hover:bg-cyan-500">
+            <Button
+              type="submit"
+              variant="default"
+              className="w-full bg-cyan-800 hover:bg-cyan-500"
+            >
               Submit Review
             </Button>
           </form>

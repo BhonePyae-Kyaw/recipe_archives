@@ -3,6 +3,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 import "./globals.css";
 import Menu from "@/components/Menu";
 import TopMenu from "@/components/TopMenu";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,9 +25,16 @@ export default function RootLayout({ children }) {
     <SessionWrapper>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased p-2 flex justify-center items-center`}
+          style={{
+            backgroundImage: 'url("/assets/Image/bg1.jpg")',
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased p-2 flex justify-center items-center w-full h-full`}
         >
-          <div className="max-w-[1440px] w-full ">{children}</div>
+          <div className="max-w-[1260px] w-full">{children}</div>
         </body>
       </html>
     </SessionWrapper>

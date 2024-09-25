@@ -59,7 +59,10 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 border border-slate-300 p-8 bg-slate-100 rounded-lg"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -91,6 +94,15 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
+        <p className="text-slate-600">
+          Don't have an account yet?{" "}
+          <span
+            className="text-cyan-700 cursor-pointer font-semibold"
+            onClick={() => router.push("register")}
+          >
+            Register
+          </span>
+        </p>
 
         <Button type="submit">Submit</Button>
       </form>

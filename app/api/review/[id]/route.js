@@ -1,6 +1,27 @@
 import dbConnect from "@/lib/db";
 import Review from "@/models/review";
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
+
+export const GET = async (req, { params }) => {
+  const { id } = params;
+  console.log(id, "id");
+
+  try {
+    await dbConnect();
+
+    const review = await Review.find({
+      user_id: id,
+    });
+    console.log(review);
+    return NextResponse.json({ review }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error fetching reviews: " + error.message },
+      { status: 500 }
+    );
+  }
+};
 
 // DELETE method to remove a review by ID
 export const DELETE = async (req) => {
@@ -82,4 +103,3 @@ export const PATCH = async (req, { params }) => {
     );
   }
 };
-

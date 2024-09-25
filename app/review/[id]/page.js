@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from "next/navigation";
 import Review from "@/components/ui/review";
 import { CldImage } from "next-cloudinary";
 import { useSession } from "next-auth/react";
@@ -9,11 +9,11 @@ import TopMenu from "@/components/TopMenu";
 export default function ReviewDetailPage() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
-  const recipeId = searchParams.get('recipeId'); // Extract the recipeId from the URL
-  const reviewId = searchParams.get('reviewId'); // Extract the reviewId from the URL
+  const recipeId = searchParams.get("recipeId"); // Extract the recipeId from the URL
+  const reviewId = searchParams.get("reviewId"); // Extract the reviewId from the URL
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("reci",recipeId,"revi", reviewId);
+  console.log("reci", recipeId, "revi", reviewId);
 
   // Function to fetch the recipe data
   const getRecipes = async () => {
@@ -57,17 +57,19 @@ export default function ReviewDetailPage() {
   if (!recipe) return <p>Recipe not found.</p>;
 
   // Filter the specific review matching the reviewId
-  const selectedReview = recipe.reviews.find((review) => review._id === reviewId);
+  const selectedReview = recipe.reviews.find(
+    (review) => review._id === reviewId
+  );
 
   return (
-    <div className="bg-cyan-100 rounded-xl p-6">
+    <div className="bg-slate-100 rounded-xl p-6">
       <TopMenu />
       <div>
         <div
           key={recipe._id}
           className="bg-white p-6 m-4 rounded-lg shadow-lg text-slate-800 flex"
         >
-          <div className="pr-4">
+          <div className="pr-4 w-1/2">
             <CldImage
               src={
                 recipe.recipe_picture !== ""
@@ -81,12 +83,12 @@ export default function ReviewDetailPage() {
             />
             <h1 className="text-cyan-700 text-2xl font-bold">
               {recipe.title}
-              <button
+              {/* <button
                 className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-xl"
                 onClick={() => handleRedirectToReview(recipe._id)}
               >
                 Write a review
-              </button>
+              </button> */}
             </h1>
             <p className="text-lg mt-2">
               <strong>Description:</strong> {recipe.description}
@@ -113,7 +115,7 @@ export default function ReviewDetailPage() {
                   rating={selectedReview.rating}
                   date={new Date(selectedReview.createdAt).toLocaleDateString()}
                   reviewUserName={selectedReview?.userDetails.username}
-                  reviewUserImage={selectedReview?.userDetails.image}
+                  reviewUserImage={selectedReview?.userDetails.ProfilePicture}
                   reviewUserId={selectedReview?.userDetails._id}
                   recipe_id={recipe._id}
                   review_id={selectedReview._id}

@@ -3,6 +3,8 @@ import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { CldImage, CldUploadButton } from "next-cloudinary";
+import { useRef } from "react";
 
 export default function EditRecipe({ params }) {
   const router = useRouter();
@@ -16,7 +18,6 @@ export default function EditRecipe({ params }) {
     preparation: "",
     recipe_picture: "",
   });
-
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -45,6 +46,19 @@ export default function EditRecipe({ params }) {
       [name]: value,
     });
   };
+  const formRef = useRef(formData);
+
+  const handleUploadSuccess = (result) => {
+    const { event, info } = result;
+    if (event === "success") {
+      const publicId = info.public_id;
+      setFormData((prevData) => ({
+        ...prevData,
+        recipe_picture: publicId,
+      }));
+      formRef.current = { ...formRef.current, recipe_picture: publicId }; // Persist image URL in ref
+    }
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -61,7 +75,7 @@ export default function EditRecipe({ params }) {
 
     if (response.ok) {
       alert("Recipe updated successfully!");
-      router.back(); 
+      router.back();
     } else {
       const errorData = await response.json();
       console.error("Error updating recipe:", errorData.message);
@@ -75,13 +89,41 @@ export default function EditRecipe({ params }) {
         <h1 className="text-2xl font-bold mb-6">Edit Recipe</h1>
         <form onSubmit={handleUpdate} className="space-y-4">
           {[
-            { label: "Recipe Title", name: "recipe_title", type: "text", required: true },
-            { label: "Brief Description", name: "brief_description", type: "text", required: true },
-            { label: "Preparation Time (mins)", name: "preparation_time", type: "number", required: true },
-            { label: "Cooking Time (mins)", name: "cooking_time", type: "number" },
-            { label: "Ingredients", name: "ingredients", type: "text", required: true },
-            { label: "Preparation", name: "preparation", type: "text", required: true },
-            { label: "Recipe Picture URL", name: "recipe_picture", type: "text" },
+            {
+              label: "Recipe Title",
+              name: "recipe_title",
+              type: "text",
+              required: true,
+            },
+            {
+              label: "Brief Description",
+              name: "brief_description",
+              type: "text",
+              required: true,
+            },
+            {
+              label: "Preparation Time (mins)",
+              name: "preparation_time",
+              type: "number",
+              required: true,
+            },
+            {
+              label: "Cooking Time (mins)",
+              name: "cooking_time",
+              type: "number",
+            },
+            {
+              label: "Ingredients",
+              name: "ingredients",
+              type: "text",
+              required: true,
+            },
+            {
+              label: "Preparation",
+              name: "preparation",
+              type: "text",
+              required: true,
+            },
           ].map(({ label, name, type, required }) => (
             <div key={name} className="flex flex-col">
               <label className="font-semibold mb-1">{label}:</label>
@@ -95,6 +137,23 @@ export default function EditRecipe({ params }) {
               />
             </div>
           ))}
+          {formData?.recipe_picture && (
+            <CldImage
+              width={500}
+              height={500}
+              src={formData.recipe_picture}
+              alt="Recipe Image"
+              className="rounded-lg max-w-full max-h-[500px] object-cover mt-4 object-center m-auto"
+            />
+          )}
+          <div className="">
+            <label className="font-semibold mb-1">Edit Recipe Picture:</label>
+            <CldUploadButton
+              uploadPreset="recipe_archives"
+              onSuccess={handleUploadSuccess}
+              className="bg-cyan-800 text-white font-semibold rounded-lg py-2 hover:bg-cyan-500 transition duration-200 w-[200px]"
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white font-semibold rounded-lg py-2 hover:bg-blue-600 transition duration-200"

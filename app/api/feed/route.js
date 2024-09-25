@@ -50,6 +50,7 @@ export const GET = async () => {
           ingredients: { $first: "$ingredients" },
           recipe_picture: { $first: "$recipe_picture" },
           user_id: { $first: "$user_id" },
+          createdAt: { $first: "$createdAt" }, // Capture the createdAt field for sorting
           reviews: { $push: "$reviews" }, // Push reviews back into an array
         },
       },
@@ -66,7 +67,7 @@ export const GET = async () => {
       },
       {
         $addFields: {
-          reviews: "$reviews", // Limit reviews to 3
+          reviews: "$reviews", // Keep the reviews array
         },
       },
       {
@@ -88,6 +89,11 @@ export const GET = async () => {
         $unwind: {
           path: "$userDetails", // Unwind user details for the recipe author
           preserveNullAndEmptyArrays: true, // Keep recipes with no user details
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1, // Sort by createdAt in descending order (newest first)
         },
       },
     ]);

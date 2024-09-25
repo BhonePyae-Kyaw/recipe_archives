@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { PopoverDemo } from "@/components/EditModal";
 import { useRouter } from "next/navigation";
 import Review from "@/components/ui/review";
+import { CldImage } from "next-cloudinary";
 
 export default function Profile() {
   const Router = useRouter();
@@ -50,7 +51,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (session) {
-      fetch(`/api/review?userId=${session.user.id}`, {
+      fetch(`/api/review/${session.user.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -61,19 +62,20 @@ export default function Profile() {
           return res.json();
         })
         .then((data) => {
-          const reviewPromises = data.map((review) => {
-            if (review.recipe_id?.$oid) {
-              return fetch(`/api/recipe/${review.recipe_id.$oid}`)
-                .then((res) => res.json())
-                .then((recipe) => ({
-                  ...review,
-                  recipeTitle: recipe.recipe_title,
-                }));
-            }
-            return Promise.resolve(review);
-          });
+          // const reviewPromises = data.map((review) => {
+          //   if (review.recipe_id?.$oid) {
+          //     return fetch(`/api/recipe/${review.recipe_id.$oid}`)
+          //       .then((res) => res.json())
+          //       .then((recipe) => ({
+          //         ...review,
+          //         recipeTitle: recipe.recipe_title,
+          //       }));
+          //   }
+          //   return Promise.resolve(review);
+          // });
 
-          Promise.all(reviewPromises).then(setReviews);
+          // Promise.all(reviewPromises).then(setReviews);
+          setReviews(data.review);
         })
         .catch((error) => console.error("Error fetching reviews:", error));
     }
@@ -88,12 +90,14 @@ export default function Profile() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: user?._id.$oid,
+        id: user?._id,
       }),
     });
+    console.log(response);
 
     if (response.ok) {
       console.log("User deleted successfully");
+
       signOut({ callbackUrl: window.location.origin + "/login" });
     } else {
       const errorData = await response.json();
@@ -135,11 +139,10 @@ export default function Profile() {
       }))
     );
   };
-  
-  
+  console.log(user);
 
   return (
-    <div className="w-full">
+    <div className="bg-gray-100 p-6">
       <TopMenu />
       <div className="bg-white p-12 rounded-lg shadow-md m-4">
         <div className="flex justify-center items-center flex-col">
@@ -195,12 +198,6 @@ export default function Profile() {
           Delete Account
         </button>
 
-        <div className="mt-4">
-          <p className="text-gray-600">
-            Current User ID: <strong>{session?.user?.id}</strong>
-          </p>
-        </div>
-
         <div className="mt-8">
           <div className="flex space-x-4 border-b-2 pb-2">
             <button
@@ -233,13 +230,19 @@ export default function Profile() {
                       {recipe.recipe_title}
                     </h2>
                     <p>{recipe.brief_description}</p>
-                    {recipe.recipe_picture && (
-                      <img
-                        src={recipe.recipe_picture}
-                        alt={recipe.recipe_title}
-                        className="mt-2"
-                      />
-                    )}
+
+                    <CldImage
+                      src={
+                        recipe.recipe_picture
+                          ? recipe.recipe_picture
+                          : "https://res.cloudinary.com/dr22j6tar/image/upload/v1727199860/samples/coffee.jpg"
+                      }
+                      width={200}
+                      height={200}
+                      alt={recipe.recipe_title}
+                      className="mt-2 rounded-lg"
+                    />
+
                     <div className="mt-4 flex space-x-2">
                       <button
                         onClick={() =>
@@ -300,7 +303,7 @@ export default function Profile() {
                         rating={review.rating}
                         date={new Date(review.createdAt).toLocaleDateString()}
                         reviewUserName={session?.user?.username}
-                        reviewUserImage={review?.image}
+                        reviewUserImage={session?.user?.image}
                         reviewUserId={review.user_id}
                         recipe_id={review.recipe_id}
                         review_id={review._id}
@@ -314,7 +317,6 @@ export default function Profile() {
               ) : (
                 <p>No reviews found.</p>
               )}
-
             </div>
           )}
         </div>
