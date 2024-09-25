@@ -1,19 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import Review from "@/components/ui/review";
 import { CldImage } from "next-cloudinary";
 import { useSession } from "next-auth/react";
 import TopMenu from "@/components/TopMenu";
+import { useRouter } from "next/navigation";
 
-export default function ReviewDetailPage() {
+export default function ReviewDetailPage({ params }) {
   const { data: session, status } = useSession();
-  const searchParams = useSearchParams();
-  const recipeId = searchParams.get("recipeId"); // Extract the recipeId from the URL
-  const reviewId = searchParams.get("reviewId"); // Extract the reviewId from the URL
+  const router = useRouter();
+  const { recipeId, reviewId } = params;
+  console.log("reci", recipeId, "revi", reviewId);
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("reci", recipeId, "revi", reviewId);
 
   // Function to fetch the recipe data
   const getRecipes = async () => {

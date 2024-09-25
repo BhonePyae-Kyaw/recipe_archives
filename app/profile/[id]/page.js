@@ -6,7 +6,6 @@ import { PopoverDemo } from "@/components/EditModal";
 import { useRouter } from "next/navigation";
 import Review from "@/components/ui/review";
 import { CldImage } from "next-cloudinary";
-import { useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 
 export default function Profile() {

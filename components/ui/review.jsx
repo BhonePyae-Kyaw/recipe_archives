@@ -113,9 +113,7 @@ export default function Review({
           {!details && ( // Check if details is false
             <button
               onClick={() => {
-                router.push(
-                  `/review/${recipe_id}?recipeId=${recipe_id}&reviewId=${review_id}`
-                );
+                router.push(`/review/${recipe_id}/${review_id}`);
               }}
               className="bg-cyan-600 text-white text-sm py-1 px-2 rounded hover:bg-cyan-500"
             >
