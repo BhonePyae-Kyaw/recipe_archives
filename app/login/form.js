@@ -95,7 +95,7 @@ const LoginForm = () => {
           )}
         />
         <p className="text-slate-600">
-          Don't have an account yet?{" "}
+          Don`&apos;`t have an account yet?{" "}
           <span
             className="text-cyan-700 cursor-pointer font-semibold"
             onClick={() => router.push("register")}

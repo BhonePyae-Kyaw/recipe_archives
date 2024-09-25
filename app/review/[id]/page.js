@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Review from "@/components/ui/review";
 import { CldImage } from "next-cloudinary";
 import { useSession } from "next-auth/react";
