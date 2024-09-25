@@ -236,6 +236,14 @@ export default function Profile() {
                       >
                         Delete
                       </button>
+                      <button
+                        onClick={() =>
+                          (window.location.href = `recipe/${recipe._id}`)
+                        }
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                      >
+                        More Details
+                      </button>
                     </div>
                   </div>
                 ))
