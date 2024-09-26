@@ -98,7 +98,15 @@ export const GET = async () => {
       },
     ]);
 
-    return new NextResponse(JSON.stringify(recipes), { status: 200 });
+    return new NextResponse(JSON.stringify(recipes), {
+      status: 200,
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "Error in fetching recipes " + error.message }),
