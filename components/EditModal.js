@@ -26,20 +26,17 @@ export function PopoverDemo({ user, action }) {
   }, [user]);
 
   const handleSave = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE}/api/user`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json", // Make sure to set the Content-Type header
-        },
-        body: JSON.stringify({
-          id: user?._id,
-          name,
-          email,
-        }),
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json", // Make sure to set the Content-Type header
+      },
+      body: JSON.stringify({
+        id: user?._id,
+        name,
+        email,
+      }),
+    });
 
     if (response.ok) {
       console.log("User updated successfully");

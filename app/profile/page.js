@@ -85,8 +85,6 @@ export default function Profile() {
   }, [session]);
 
   const handleDelete = async () => {
-    alert("Are you sure you want to delete your account?");
-
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user`, {
       method: "DELETE",
       headers: {
@@ -101,7 +99,9 @@ export default function Profile() {
     if (response.ok) {
       console.log("User deleted successfully");
 
-      signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login` });
+      signOut({
+        callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/register`,
+      });
     } else {
       const errorData = await response.json();
       console.error("Error deleting user:", errorData.message);
