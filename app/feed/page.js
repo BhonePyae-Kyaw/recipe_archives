@@ -19,14 +19,13 @@ export default function Home() {
 
   const getRecipes = async () => {
     const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_API_BASE
-      }/feed?timestamp=${new Date().getTime()}`,
+      `${process.env.NEXT_PUBLIC_API_BASE}/feed`, // Remove timestamp from URL
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store", // Add this line to prevent caching
       }
     );
 

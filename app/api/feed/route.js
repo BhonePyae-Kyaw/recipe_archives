@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // Add this line
+
 import Recipe from "@/models/recipe";
 import dbConnect from "@/lib/db";
 import { NextResponse } from "next/server";
