@@ -36,7 +36,6 @@ export default function Home() {
   useEffect(() => {
     getRecipes();
   }, []);
-  console.log(recipes);
   const handleRedirect = () => {
     router.push("/create/recipe");
   };
@@ -129,7 +128,7 @@ export default function Home() {
                 }
                 className="text-lg mt-2 cursor-pointer text-cyan-700 hover:underline font-semibold"
               >
-                {recipe.userDetails.username}
+                {recipe?.userDetails?.username}
               </p>
             </div>
 
@@ -139,9 +138,9 @@ export default function Home() {
               <div className="pr-2 w-full flex flex-col reviews-section">
                 <hr className="my-4 " />
                 <div className="flex-1">
-                  {recipe.reviews.length > 0 ? (
+                  {recipe?.reviews?.length > 0 ? (
                     // Limit displayed reviews to the first 3 using slice
-                    recipe.reviews
+                    recipe?.reviews
                       .slice(0, 3)
                       .map((review) => (
                         <Review
