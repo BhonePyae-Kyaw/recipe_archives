@@ -98,7 +98,7 @@ export default function Profile() {
     if (response.ok) {
       console.log("User deleted successfully");
 
-      signOut({ callbackUrl: window.location.origin + "/login" });
+      signOut({ callbackUrl: process.env.NEXT_PUBLIC_API_BASE + "/login" });
     } else {
       const errorData = await response.json();
       console.error("Error deleting user:", errorData.message);
@@ -157,7 +157,9 @@ export default function Profile() {
             <PopoverDemo action={"Edit"} user={user} />
             <button
               onClick={() =>
-                signOut({ callbackUrl: window.location.origin + "/login" })
+                signOut({
+                  callbackUrl: process.env.NEXT_PUBLIC_API_BASE + "/login",
+                })
               }
               className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
