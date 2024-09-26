@@ -91,11 +91,6 @@ export const GET = async () => {
           preserveNullAndEmptyArrays: true, // Keep recipes with no user details
         },
       },
-      {
-        $sort: {
-          createdAt: -1, // Sort by createdAt in descending order (newest first)
-        },
-      },
     ]);
 
     return new NextResponse(JSON.stringify(recipes), {

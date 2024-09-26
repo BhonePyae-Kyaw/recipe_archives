@@ -147,7 +147,7 @@ export default function Create() {
             type="submit"
             className="w-full bg-cyan-800 text-white font-semibold rounded-lg py-2 hover:bg-cyan-500 transition duration-200"
           >
-            Submit
+            Create Recipe
           </button>
         </form>
       </div>
