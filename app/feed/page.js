@@ -18,12 +18,17 @@ export default function Home() {
   const recipeRefs = useRef([]);
 
   const getRecipes = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/feed`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_BASE
+      }/feed?timestamp=${new Date().getTime()}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       const data = await response.json();
