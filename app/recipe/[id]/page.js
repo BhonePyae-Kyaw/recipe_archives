@@ -15,12 +15,15 @@ export default function RecipePage({ params }) {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await fetch(`/api/recipe/${params.id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE}/recipe/${params.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch recipe data");
@@ -57,7 +60,7 @@ export default function RecipePage({ params }) {
             alt="recipe picture"
             width="500"
             height="500"
-            className="rounded-lg max-w-[500px] max-h-[500px] object-cover object-center mb-4 mt-2"
+            className="rounded-lg w-full max-w-[500px] max-h-[500px] object-cover object-center mb-4 mt-2"
           />
         </div>
         <p className="text-gray-700 mb-4">{recipe.brief_description}</p>
@@ -89,8 +92,6 @@ export default function RecipePage({ params }) {
           </ol>
         </div>
 
-        
-
         <div className="mt-6">
           {/* <button
             onClick={() => router.push(`/edit/recipe/${params.id}`)}
@@ -98,7 +99,7 @@ export default function RecipePage({ params }) {
           >
             Edit Recipe
           </button> */}
-          
+
           <button
             onClick={() => router.back()}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"

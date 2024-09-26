@@ -53,10 +53,13 @@ const RegisterForm = () => {
 
   // Define the submit handler
   async function onSubmit(values) {
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
-      body: JSON.stringify(values),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/auth/register`,
+      {
+        method: "POST",
+        body: JSON.stringify(values),
+      }
+    );
     const data = await response.json();
 
     if (data.error) {
@@ -71,10 +74,10 @@ const RegisterForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 border border-slate-300 p-8 bg-slate-100 rounded-lg"
+        className="space-y-4 border border-slate-300 p-8 bg-slate-100 rounded-lg"
       >
         <div></div>
-        <div className="flex gap-4">
+        <div className="md:flex gap-4">
           <FormField
             control={form.control}
             name="email"
@@ -148,9 +151,11 @@ const RegisterForm = () => {
           </span>
         </p>
 
-        <Button className="bg-green-600 cursor-pointer" type="submit">
-          Submit
-        </Button>
+        <div className="w-full flex items-center justicy-center">
+          <Button className="bg-cyan-700 cursor-pointer m-auto" type="submit">
+            Register
+          </Button>
+        </div>
       </form>
     </Form>
   );

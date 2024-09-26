@@ -17,7 +17,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (session) {
-      fetch(`/api/user/${session.user?.id}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user/${session.user?.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -34,12 +34,15 @@ export default function Profile() {
 
   useEffect(() => {
     if (session) {
-      fetch(`/api/recipe?userId=${session.user.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/recipe?userId=${session.user.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch recipes");
           return res.json();
@@ -51,7 +54,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (session) {
-      fetch(`/api/review/${session.user.id}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/review/${session.user.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +87,7 @@ export default function Profile() {
   const handleDelete = async () => {
     alert("Are you sure you want to delete your account?");
 
-    const response = await fetch("/api/user", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +101,7 @@ export default function Profile() {
     if (response.ok) {
       console.log("User deleted successfully");
 
-      signOut({ callbackUrl: process.env.NEXT_PUBLIC_API_BASE + "/login" });
+      signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login` });
     } else {
       const errorData = await response.json();
       console.error("Error deleting user:", errorData.message);
@@ -107,12 +110,15 @@ export default function Profile() {
 
   const handleDeleteRecipe = async (recipeId) => {
     if (confirm("Are you sure you want to delete this recipe?")) {
-      const response = await fetch(`/api/recipe/${recipeId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/recipe/${recipeId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         setRecipes(recipes.filter((recipe) => recipe._id.$oid !== recipeId));
@@ -142,9 +148,9 @@ export default function Profile() {
   console.log(user);
 
   return (
-    <div className="bg-gray-100 p-6">
+    <div className="bg-gray-100 md:p-6">
       <TopMenu />
-      <div className="bg-white p-12 rounded-lg shadow-md m-4">
+      <div className="bg-white md:p-12 p-2 rounded-lg shadow-md m-4">
         <div className="flex justify-center items-center flex-col">
           <img
             src={session?.user?.image}
@@ -158,7 +164,7 @@ export default function Profile() {
             <button
               onClick={() =>
                 signOut({
-                  callbackUrl: process.env.NEXT_PUBLIC_API_BASE + "/login",
+                  callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login`,
                 })
               }
               className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -245,7 +251,7 @@ export default function Profile() {
                       className="mt-2 rounded-lg"
                     />
 
-                    <div className="mt-4 flex space-x-2">
+                    <div className="mt-4 md:flex space-x-2">
                       <button
                         onClick={() =>
                           (window.location.href = `/edit/recipe/${recipe._id}`)

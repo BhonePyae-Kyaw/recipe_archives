@@ -35,20 +35,23 @@ export default function Create() {
 
     // Handle the review submission (API call to save the review)
     try {
-      const response = await fetch("/api/review", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          recipe_id: id, // Use `recipe_id` from the URL params
-          user_id: session?.user?.id, // Use `user_id` from session
-          review_title: data.title, // Use `review_title` for the title
-          review_description: data.review, // Use `review_description` for the review text
-          rating: parseInt(data.rating), // Ensure rating is a number
-          review_picture: "", // If there's a picture, add it here; otherwise leave empty or use a default value
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            recipe_id: id, // Use `recipe_id` from the URL params
+            user_id: session?.user?.id, // Use `user_id` from session
+            review_title: data.title, // Use `review_title` for the title
+            review_description: data.review, // Use `review_description` for the review text
+            rating: parseInt(data.rating), // Ensure rating is a number
+            review_picture: "", // If there's a picture, add it here; otherwise leave empty or use a default value
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit review");
@@ -65,7 +68,7 @@ export default function Create() {
   };
 
   return (
-    <div>
+    <div className="bg-slate-100 p-6 min-h-screen">
       <TopMenu />
       {/* <h1>Create review for Recipe ID: {id}</h1>
       <h1>Logged in user ID: {session?.user?.id}</h1>

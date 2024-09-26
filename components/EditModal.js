@@ -26,17 +26,20 @@ export function PopoverDemo({ user, action }) {
   }, [user]);
 
   const handleSave = async () => {
-    const response = await fetch("/api/user", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json", // Make sure to set the Content-Type header
-      },
-      body: JSON.stringify({
-        id: user?._id,
-        name,
-        email,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE}/api/user`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json", // Make sure to set the Content-Type header
+        },
+        body: JSON.stringify({
+          id: user?._id,
+          name,
+          email,
+        }),
+      }
+    );
 
     if (response.ok) {
       console.log("User updated successfully");
@@ -57,7 +60,7 @@ export function PopoverDemo({ user, action }) {
           {action}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[500px] max-h-[500px]">
+      <PopoverContent className="max-w-[500px] max-h-[500px] w-full">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Edit Profile</h4>

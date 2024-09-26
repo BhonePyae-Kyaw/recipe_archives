@@ -61,17 +61,20 @@ export default function Edit() {
   // onSubmit function to handle the form submission
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`/api/review/${queryParams.review_id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: data.title,
-          description: data.review,
-          rating: parseInt(data.rating),
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/review/${queryParams.review_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: data.title,
+            description: data.review,
+            rating: parseInt(data.rating),
+          }),
+        }
+      );
       console.log("Reviewid:", queryParams.review_id, 11);
 
       if (!response.ok) {

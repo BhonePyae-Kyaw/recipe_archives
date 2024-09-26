@@ -21,7 +21,9 @@ export default function EditRecipe({ params }) {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const response = await fetch(`/api/recipe/${params.id}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/recipe/${params.id}`
+      );
       const data = await response.json();
       if (response.ok) {
         setFormData({

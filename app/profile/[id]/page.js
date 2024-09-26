@@ -22,7 +22,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (uid) {
-      fetch(`/api/user/${uid}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/user/${uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (uid) {
-      fetch(`/api/recipe?userId=${uid}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/recipe?userId=${uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (uid) {
-      fetch(`/api/review/${uid}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/review/${uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export default function Profile() {
   }, [uid]);
 
   return (
-    <div className="bg-gray-100 p-6">
+    <div className="bg-gray-100 md:p-6">
       <TopMenu />
       <div className="bg-white p-12 rounded-lg shadow-md m-4">
         <div className="flex justify-center items-center flex-col">

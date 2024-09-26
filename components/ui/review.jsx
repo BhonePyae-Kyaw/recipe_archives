@@ -46,9 +46,12 @@ export default function Review({
   const handleDelete = async () => {
     console.log(review_id);
     try {
-      const response = await fetch(`/api/review/${review_id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/review/${review_id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete review");

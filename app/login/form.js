@@ -95,7 +95,7 @@ const LoginForm = () => {
           )}
         />
         <p className="text-slate-600">
-          Don`&apos;`t have an account yet?{" "}
+          Don&apos;t have an account yet?{" "}
           <span
             className="text-cyan-700 cursor-pointer font-semibold"
             onClick={() => router.push("register")}
@@ -103,8 +103,11 @@ const LoginForm = () => {
             Register
           </span>
         </p>
-
-        <Button type="submit">Submit</Button>
+        <div className="w-full flex items-center justicy-center">
+          <Button className="m-auto bg-cyan-700" type="submit">
+            Log in
+          </Button>
+        </div>
       </form>
     </Form>
   );

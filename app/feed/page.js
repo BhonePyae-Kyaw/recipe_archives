@@ -18,7 +18,7 @@ export default function Home() {
   const recipeRefs = useRef([]);
 
   const getRecipes = async () => {
-    const response = await fetch("/api/feed", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/feed`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,10 +69,10 @@ export default function Home() {
         {recipes.map((recipe, index) => (
           <div
             key={recipe._id}
-            className="bg-white p-6 m-4 rounded-lg shadow-lg text-slate-800 flex"
+            className="bg-white p-6 m-4 rounded-lg shadow-lg text-slate-800 md:flex"
             ref={(el) => (recipeRefs.current[index] = el)}
           >
-            <div className="pr-4 w-1/2">
+            <div className="pr-4 md:w-1/2 w-full">
               <div>
                 <CldImage
                   src={
@@ -83,8 +83,8 @@ export default function Home() {
                   alt="recipe picture"
                   width="500"
                   height="500"
-                  className="rounded-lg max-w-[500px] max-h-[500px] object-cover
-                object-center mb-4 mt-2"
+                  className="rounded-lg object-cover max-w-full 
+                object-center mb-4 mt-2 w-full max-w-[500px] max-h-[500px]"
                 />
               </div>
               <h1 className="text-cyan-700 text-2xl font-bold">
@@ -132,7 +132,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="ml-4 w-full flex flex-col reviews-section">
+            <div className="ml-4 w-full md:w-1/2 flex flex-col reviews-section">
               {/* <h1 className="text-cyan-700 mb-2">Reviews</h1> */}
               <hr className="my-4" />
               <div className="pr-2 w-full flex flex-col reviews-section">

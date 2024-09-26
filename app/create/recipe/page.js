@@ -18,7 +18,6 @@ export default function Create() {
     recipe_picture: "",
   });
 
-  
   const formRef = useRef(formData);
 
   const handleChange = (e) => {
@@ -27,7 +26,7 @@ export default function Create() {
       ...prevData,
       [name]: value,
     }));
-    formRef.current = { ...formRef.current, [name]: value }; 
+    formRef.current = { ...formRef.current, [name]: value };
   };
 
   const handleSubmit = async (e) => {
@@ -36,13 +35,16 @@ export default function Create() {
     const dataToSubmit = { ...formRef.current, user_id: session?.user?.id };
 
     try {
-      const response = await fetch("/api/recipe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToSubmit),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/recipe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSubmit),
+        }
+      );
 
       if (response.ok) {
         alert("Recipe created successfully!");
@@ -73,7 +75,8 @@ export default function Create() {
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold mb-6 text-cyan-700">Create Recipe</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {[{
+          {[
+            {
               label: "Recipe Title",
               name: "recipe_title",
               type: "text",
@@ -107,7 +110,7 @@ export default function Create() {
               name: "preparation",
               type: "text",
               required: true,
-            }
+            },
           ].map(({ label, name, type, required }) => (
             <div key={name} className="flex flex-col">
               <label className="font-semibold mb-1">{label}:</label>

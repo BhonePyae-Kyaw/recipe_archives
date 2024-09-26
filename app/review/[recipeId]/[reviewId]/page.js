@@ -17,7 +17,7 @@ export default function ReviewDetailPage({ params }) {
   // Function to fetch the recipe data
   const getRecipes = async () => {
     try {
-      const response = await fetch("/api/feed", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/feed`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
