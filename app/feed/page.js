@@ -91,7 +91,7 @@ export default function Home() {
                 {recipe.title}
 
                 <div className="mt-3">
-                  {recipe.user_id !== session.user.id && ( // Show button only if the user IDs are not equal
+                  {recipe.user_id !== session?.user?.id && ( // Show button only if the user IDs are not equal
                     <button
                       className="bg-cyan-700 text-white text-sm p-3 rounded-lg ml-4 mb-2 hover:bg-cyan-500 transition text-m"
                       onClick={() => handleRedirectToReview(recipe._id)}
