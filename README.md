@@ -1,9 +1,9 @@
 # Recipe Archives
 
 ## Team Members
-- [Anmol](https://github.com/KyawYeLwin) - Recipe
-- [Bhone](https://github.com/BhonePyae-Kyaw) - User
-- [Moe San](https://github.com/MoeMyintMoSan) - Review
+- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin) - Recipe
+- [Bhone Pyaw Kyaw](https://github.com/BhonePyae-Kyaw) - User
+- [Moe Myint Mo San](https://github.com/MoeMyintMoSan) - Review
 
 ## Project Description
 Recipe Archives is a collaborative web application designed for food enthusiasts to explore, create, and share recipes. It serves as a digital cookbook where users can contribute their own recipes and review recipes posted by others. Users can manage their profiles, interact with recipes through comments and reviews, and build a community around their culinary creations.
