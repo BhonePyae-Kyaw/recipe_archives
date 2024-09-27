@@ -1,6 +1,6 @@
 # Recipe Archives
 
-**Recipe Archives** is a web application where users can discover recipes from others, create their own, and share feedback through reviews. It functions as a collaborative cookbook, allowing users to share and explore recipes, as well as provide comments and ratings.
+**Recipe Archives** is a web application that enables users to discover, create, and engage with recipes from others. Acting as a collaborative cookbook, it allows users to not only share their own culinary creations but also explore a variety of recipes from the community. Users can provide feedback through comments and ratings, fostering a space for culinary interaction and discovery.
 
 ## Features
 
@@ -27,31 +27,85 @@
    - Recipes and reviews can be edited or deleted from this page.
 
 ## Screenshots
-1. **User Pages**
-   - Registration Page
-   - Login Page
-   - Profile Page:
-     - Viewing own profile (with list of personal recipes and reviews)
-     - Viewing another user's profile (accessed from the feed page)
 
-2. **Recipe Pages**
-   - Create Recipe
-   - Edit Recipe
-   - Delete Recipe
-   - View Recipe on Profile Page
-   - View Recipe on Feed Page
+### **Login and Registration**
+This is the page for logging in and registering to use Recipe Archives.
 
-3. **Review Pages**
-   - Create Review
-   - Edit Review
-   - Delete Review
+- **Login:**
+<div align="center">
+    <img src="./screenshots/Login.png" width="50%" alt="Login Page">
+</div>
 
-4. **Feed Page**
-   - Recipe and Review Listing
-   - Navigation to Profiles and Detailed Recipe Views
+- **Register:**
+<div align="center">
+    <img src="./screenshots/Register.png" width="50%" alt="Registration Page">
+</div>
 
-5. **Landing Page**
-   - Overview of the app’s core functionalities, call-to-action for user registration or login.
+### **Feed Page**
+The Feed page allows you to view all the recipes and reviews. You can also create a new recipe or write a review from here.
+
+- **Recipe and Review View:**
+   <div align="center">
+       <img src="./screenshots/View Recipe.png" width="50%" alt="Recipe and Review View">
+   </div>
+  
+- **Navigation:**
+   <div align="center">
+       <img src="./screenshots/Navigation.png" width="50%" alt="Navigation Bar">
+   </div>
+
+- **Create Recipe:**
+   <div align="center">
+       <img src="./screenshots/Create Recipe.png" width="50%" alt="Create Recipe Page">
+   </div>
+
+- **Upload Image:**
+   <div align="center">
+       <img src="./screenshots/Image Upload.png" width="50%" alt="Image Upload">
+   </div>
+
+- **Create Review:**
+   <div align="center">
+       <img src="./screenshots/Create Review.png" width="50%" alt="Create Review Page">
+   </div>
+
+- **View Recipe Detail:**
+   <div align="center">
+       <img src="./screenshots/Recipe Detail.png" width="50%" alt="Recipe Detail View">
+   </div>
+
+- **View Review Detail:**
+   <div align="center">
+       <img src="./screenshots/Review Detail.png" width="50%" alt="Review Detail View">
+   </div>
+
+### **Profile Page**
+This is the page where you can view and edit your profile. You can also see all the reviews and recipes you’ve created, with options to edit or delete them.
+
+- **Edit Profile Information:**
+   <div align="center">
+       <img src="./screenshots/EditUser Info.png" width="50%" alt="Edit Profile Information">
+   </div>
+
+- **View All Your Recipes:**
+   <div align="center">
+       <img src="./screenshots/User Recipe Profile.png" width="50%" alt="User's Recipes">
+   </div>
+
+- **View All Your Reviews:**
+   <div align="center">
+       <img src="./screenshots/User Review Profile.png" width="50%" alt="User's Reviews">
+   </div>
+
+- **Edit Your Recipe:**
+   <div align="center">
+       <img src="./screenshots/Edit Recipe.png" width="50%" alt="Edit Recipe Page">
+   </div>
+
+- **Edit Your Review:**
+   <div align="center">
+       <img src="./screenshots/Edit Review.png" width="50%" alt="Edit Review Page">
+   </div>
 
 ## Tech Stack
 
