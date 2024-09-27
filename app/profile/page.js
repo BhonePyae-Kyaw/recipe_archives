@@ -94,11 +94,8 @@ export default function Profile() {
         id: user?._id,
       }),
     });
-    console.log(response);
 
     if (response.ok) {
-      console.log("User deleted successfully");
-
       signOut({
         callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/register`,
       });
@@ -122,7 +119,7 @@ export default function Profile() {
 
       if (response.ok) {
         setRecipes(recipes.filter((recipe) => recipe._id.$oid !== recipeId));
-        console.log("Recipe deleted successfully");
+
         window.location.reload();
       } else {
         const errorData = await response.json();
@@ -145,7 +142,6 @@ export default function Profile() {
       }))
     );
   };
-  console.log(user);
 
   return (
     <div className="bg-gray-100 md:p-6">

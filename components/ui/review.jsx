@@ -22,7 +22,6 @@ export default function Review({
 }) {
   const { data: session } = useSession();
   const router = useRouter();
-  console.log(page);
 
   // Function to render stars based on the rating
   const renderStars = (rating) => {
@@ -44,7 +43,6 @@ export default function Review({
 
   // Function to handle delete
   const handleDelete = async () => {
-    console.log(review_id);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE}/review/${review_id}`,
@@ -56,7 +54,7 @@ export default function Review({
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete review");
       }
-      console.log("Review deleted successfully!");
+
       onDelete(review_id);
     } catch (error) {
       console.error("Error deleting review:", error.message);
@@ -64,7 +62,6 @@ export default function Review({
   };
 
   const handleRedirectToEdit = (title, description, rating, review_id) => {
-    console.log("Redirecting to review edit page");
     if (review_id) {
       const encodedTitle = encodeURIComponent(title);
       const encodedDescription = encodeURIComponent(description);
@@ -136,7 +133,6 @@ export default function Review({
             </button>
             <button
               onClick={() => {
-                console.log("Review ID before redirect:", review_id);
                 handleRedirectToEdit(title, description, rating, review_id);
               }}
               className="bg-cyan-800 text-white text-sm py-1 px-1 rounded hover:bg-cyan-500"

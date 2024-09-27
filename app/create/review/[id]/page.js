@@ -29,10 +29,6 @@ export default function Create() {
   });
 
   const onSubmit = async (data) => {
-    console.log("Review submitted for recipe ID:", id, data);
-    console.log("Submitted by user ID:", session?.user?.id);
-    console.log("Submitted by user name:", session?.user?.username);
-
     // Handle the review submission (API call to save the review)
     try {
       const response = await fetch(
@@ -57,9 +53,6 @@ export default function Create() {
         throw new Error("Failed to submit review");
       }
 
-      console.log("Review submitted successfully!");
-      console.log("Response status:", response.status);
-      console.log("Response body:", await response.text());
       // Redirect to the recipe page after submission
       router.push(`/feed`);
     } catch (error) {

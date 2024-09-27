@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 
 export function PopoverDemo({ user, action }) {
-  console.log(user);
   const [name, setName] = useState(user?.username);
   const [email, setEmail] = useState(user?.email);
   const router = useRouter();
@@ -39,7 +38,6 @@ export function PopoverDemo({ user, action }) {
     });
 
     if (response.ok) {
-      console.log("User updated successfully");
       window.location.reload();
     } else {
       const errorData = await response.json();

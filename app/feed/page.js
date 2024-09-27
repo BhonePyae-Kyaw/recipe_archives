@@ -57,8 +57,6 @@ export default function Home() {
     );
   };
 
-  // console.log(recipes.userid,session.user.userid,"equal?");
-
   return (
     <div className="bg-gray-100 p-6">
       <TopMenu />

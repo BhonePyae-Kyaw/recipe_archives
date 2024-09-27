@@ -10,7 +10,6 @@ export default function ReviewDetailPage({ params }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { recipeId, reviewId } = params;
-  console.log("reci", recipeId, "revi", reviewId);
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
 
