@@ -56,7 +56,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (uid) {
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/review/${uid}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE}/review/${uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +72,7 @@ export default function Profile() {
         .catch((error) => console.error("Error fetching reviews:", error));
     }
   }, [uid]);
+  console.log(reviews);
 
   return (
     <div className="bg-gray-100 md:p-6">
@@ -175,45 +176,28 @@ export default function Profile() {
 
           {activeTab === "reviews" && (
             <div className="mt-4">
+              {/* {JSON.stringify(reviews)}
+              {JSON.stringify(user)} */}
               {reviews.length > 0 ? (
-                reviews
-                  .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
-                  .map((review) => (
-                    <div
-                      key={review._id.$oid || review._id}
-                      className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
-                    >
-                      <h2 className="text-xl font-semibold">
-                        {review.recipeTitle}
-                      </h2>
-                      {/* <p>{review.review_description}</p> */}
-                      {review.review_picture && (
-                        <img
-                          src={review.review_picture}
-                          alt={review.recipeTitle}
-                          className="mt-2"
-                        />
-                      )}
-
-                      <Review
-                        key={review._id}
-                        title={review.review_title}
-                        description={review.review_description}
-                        rating={review.rating}
-                        date={new Date(review.createdAt).toLocaleDateString()}
-                        reviewUserName={session?.user?.username}
-                        reviewUserImage={user.ProfilePicture}
-                        reviewUserId={review.user_id}
-                        recipe_id={review.recipe_id}
-                        review_id={review._id}
-                        loginSession={session}
-                        onDelete={() => {}}
-                        details={false}
-                        profile={true}
-                        page={"other profile"}
-                      />
-                    </div>
-                  ))
+                reviews.map((review) => (
+                  <Review
+                    key={review._id}
+                    title={review.review_title}
+                    description={review.review_description}
+                    rating={review.rating}
+                    date={new Date(review.createdAt).toLocaleDateString()}
+                    reviewUserName={user?.username}
+                    reviewUserImage={user.ProfilePicture}
+                    reviewUserId={review.user_id}
+                    recipe_id={review.recipe_id}
+                    review_id={review._id}
+                    loginSession={session}
+                    onDelete={() => {}}
+                    details={false}
+                    profile={true}
+                    page={"other profile"}
+                  />
+                ))
               ) : (
                 <p>No reviews found.</p>
               )}

@@ -150,185 +150,203 @@ export default function Profile() {
   return (
     <div className="bg-gray-100 md:p-6">
       <TopMenu />
-      <div className="bg-white md:p-12 p-2 rounded-lg shadow-md m-4">
-        <div className="flex justify-center items-center flex-col">
-          <img
-            src={session?.user?.image}
-            alt="user image"
-            width={200}
-            height={200}
-            className="rounded-full"
-          />
-          <div className="mt-6">
-            <PopoverDemo action={"Edit"} user={user} />
-            <button
-              onClick={() =>
-                signOut({
-                  callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login`,
-                })
-              }
-              className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Log out
-            </button>
-          </div>
-        </div>
-        <div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2 min-w-[200px]">
-              Username:
-            </label>
-            <input
-              type="text"
-              value={user?.username || ""}
-              disabled
-              className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      {session ? (
+        <div className="bg-white md:p-12 p-2 rounded-lg shadow-md m-4">
+          <div className="flex justify-center items-center flex-col">
+            <img
+              src={session?.user?.image}
+              alt="user image"
+              width={200}
+              height={200}
+              className="rounded-full"
             />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2 min-w-[200px]">
-              Email:
-            </label>
-            <input
-              type="text"
-              value={user?.email || ""}
-              disabled
-              className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-          </div>
-        </div>
-
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Delete Account
-        </button>
-
-        <div className="mt-8">
-          <div className="flex space-x-4 border-b-2 pb-2">
-            <button
-              className={`font-semibold ${
-                activeTab === "recipes" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setActiveTab("recipes")}
-            >
-              Recipes
-            </button>
-            <button
-              className={`font-semibold ${
-                activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setActiveTab("reviews")}
-            >
-              Reviews
-            </button>
-          </div>
-
-          {activeTab === "recipes" && (
-            <div className="mt-4">
-              {recipes.length > 0 ? (
-                recipes.map((recipe) => (
-                  <div
-                    key={recipe._id.$oid}
-                    className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
-                  >
-                    <h2 className="text-xl font-semibold">
-                      {recipe.recipe_title}
-                    </h2>
-                    <p>{recipe.brief_description}</p>
-
-                    <CldImage
-                      src={
-                        recipe.recipe_picture
-                          ? recipe.recipe_picture
-                          : "https://res.cloudinary.com/dr22j6tar/image/upload/v1727199860/samples/coffee.jpg"
-                      }
-                      width={200}
-                      height={200}
-                      alt={recipe.recipe_title}
-                      className="mt-2 rounded-lg"
-                    />
-
-                    <div className="mt-4 md:flex space-x-2">
-                      <button
-                        onClick={() =>
-                          (window.location.href = `/edit/recipe/${recipe._id}`)
-                        }
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteRecipe(recipe._id)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() =>
-                          (window.location.href = `recipe/${recipe._id}`)
-                        }
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
-                      >
-                        More Details
-                      </button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No recipes found.</p>
-              )}
+            <div className="mt-6">
+              <PopoverDemo action={"Edit"} user={user} />
+              <button
+                onClick={() =>
+                  signOut({
+                    callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login`,
+                  })
+                }
+                className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Log out
+              </button>
             </div>
-          )}
+          </div>
+          <div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2 min-w-[200px]">
+                Username:
+              </label>
+              <input
+                type="text"
+                value={user?.username || ""}
+                disabled
+                className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
 
-          {activeTab === "reviews" && (
-            <div className="mt-4">
-              {reviews.length > 0 ? (
-                reviews
-                  .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
-                  .map((review) => (
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2 min-w-[200px]">
+                Email:
+              </label>
+              <input
+                type="text"
+                value={user?.email || ""}
+                disabled
+                className="w-full p-3 rounded-md bg-gray-100 text-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Delete Account
+          </button>
+
+          <div className="mt-8">
+            <div className="flex space-x-4 border-b-2 pb-2">
+              <button
+                className={`font-semibold ${
+                  activeTab === "recipes" ? "border-b-2 border-blue-500" : ""
+                }`}
+                onClick={() => setActiveTab("recipes")}
+              >
+                Recipes
+              </button>
+              <button
+                className={`font-semibold ${
+                  activeTab === "reviews" ? "border-b-2 border-blue-500" : ""
+                }`}
+                onClick={() => setActiveTab("reviews")}
+              >
+                Reviews
+              </button>
+            </div>
+
+            {activeTab === "recipes" && (
+              <div className="mt-4">
+                {recipes.length > 0 ? (
+                  recipes.map((recipe) => (
                     <div
-                      key={review._id.$oid || review._id}
+                      key={recipe._id.$oid}
                       className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
                     >
                       <h2 className="text-xl font-semibold">
-                        {review.recipeTitle}
+                        {recipe.recipe_title}
                       </h2>
-                      {/* <p>{review.review_description}</p> */}
-                      {review.review_picture && (
-                        <img
-                          src={review.review_picture}
-                          alt={review.recipeTitle}
-                          className="mt-2"
-                        />
-                      )}
-                      <Review
-                        key={review._id}
-                        title={review.review_title}
-                        description={review.review_description}
-                        rating={review.rating}
-                        date={new Date(review.createdAt).toLocaleDateString()}
-                        reviewUserName={session?.user?.username}
-                        reviewUserImage={session?.user?.image}
-                        reviewUserId={review.user_id}
-                        recipe_id={review.recipe_id}
-                        review_id={review._id}
-                        loginSession={session}
-                        onDelete={handleDeleteReview}
-                        details={false}
-                        profile={true}
+                      <p>{recipe.brief_description}</p>
+
+                      <CldImage
+                        src={
+                          recipe.recipe_picture
+                            ? recipe.recipe_picture
+                            : "https://res.cloudinary.com/dr22j6tar/image/upload/v1727199860/samples/coffee.jpg"
+                        }
+                        width={200}
+                        height={200}
+                        alt={recipe.recipe_title}
+                        className="mt-2 rounded-lg"
                       />
+
+                      <div className="mt-4 md:flex space-x-2">
+                        <button
+                          onClick={() =>
+                            (window.location.href = `/edit/recipe/${recipe._id}`)
+                          }
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteRecipe(recipe._id)}
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={() =>
+                            (window.location.href = `recipe/${recipe._id}`)
+                          }
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+                        >
+                          More Details
+                        </button>
+                      </div>
                     </div>
                   ))
-              ) : (
-                <p>No reviews found.</p>
-              )}
-            </div>
-          )}
+                ) : (
+                  <p>No recipes found.</p>
+                )}
+              </div>
+            )}
+
+            {activeTab === "reviews" && (
+              <div className="mt-4">
+                {reviews.length > 0 ? (
+                  reviews
+                    .filter((review) => review.user_id === session?.user?.id) // Filter reviews by session user id
+                    .map((review) => (
+                      <div
+                        key={review._id.$oid || review._id}
+                        className="bg-gray-100 p-4 rounded-lg mb-4 shadow-sm"
+                      >
+                        <h2 className="text-xl font-semibold">
+                          {review.recipeTitle}
+                        </h2>
+                        {/* <p>{review.review_description}</p> */}
+                        {review.review_picture && (
+                          <img
+                            src={review.review_picture}
+                            alt={review.recipeTitle}
+                            className="mt-2"
+                          />
+                        )}
+                        <Review
+                          key={review._id}
+                          title={review.review_title}
+                          description={review.review_description}
+                          rating={review.rating}
+                          date={new Date(review.createdAt).toLocaleDateString()}
+                          reviewUserName={session?.user?.username}
+                          reviewUserImage={session?.user?.image}
+                          reviewUserId={review.user_id}
+                          recipe_id={review.recipe_id}
+                          review_id={review._id}
+                          loginSession={session}
+                          onDelete={handleDeleteReview}
+                          details={false}
+                          profile={true}
+                        />
+                      </div>
+                    ))
+                ) : (
+                  <p>No reviews found.</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl font-semibold text-center mt-6">
+            You need to be logged in to view this page.
+          </h1>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={() =>
+                (window.location.href = `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login`)
+              }
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Log in
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
