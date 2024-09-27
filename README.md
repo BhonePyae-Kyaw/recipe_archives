@@ -1,12 +1,5 @@
 # Recipe Archives
 
-## Team Members
-- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin) - Recipe
-- [Bhone Pyaw Kyaw](https://github.com/BhonePyae-Kyaw) - User
-- [Moe Myint Mo San](https://github.com/MoeMyintMoSan) - Review
-
-# Recipe Archives
-
 **Recipe Archives** is a web application where users can discover recipes from others, create their own, and share feedback through reviews. It functions as a collaborative cookbook, allowing users to share and explore recipes, as well as provide comments and ratings.
 
 ## Features
@@ -68,6 +61,10 @@
 - **Image Upload**: Cloudinary
 - **Deployment**: Vercel
 
+## Team Members
+- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin) - Recipe
+- [Bhone Pyaw Kyaw](https://github.com/BhonePyae-Kyaw) - User
+- [Moe Myint Mo San](https://github.com/MoeMyintMoSan) - Review
 
 ## References
 - [NextAuth.js Documentation](https://next-auth.js.org/)
