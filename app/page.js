@@ -2,26 +2,9 @@
 
 // Force dynamic rendering on the server
 export const dynamic = "force-dynamic";
-
-import Image from "next/image";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
-  let session = null;
-  try {
-    session = await getServerSession(authOptions);
-  } catch (error) {
-    console.error("Error fetching session:", error);
-    // Optionally handle the error or display an error message
-  }
-
-  if (session) {
-    redirect("/feed");
-  }
-
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="bg-slate-100 p-8 m-auto w-auto h-auto rounded-lg ">
