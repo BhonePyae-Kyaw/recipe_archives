@@ -66,81 +66,84 @@ export default function Create() {
       {/* <h1>Create review for Recipe ID: {id}</h1>
       <h1>Logged in user ID: {session?.user?.id}</h1>
       <h1>Logged in user name: {session?.user?.username}</h1> */}
+      {session ? (
+        <div className="max-w-lg mx-auto my-8 p-4 rounded-md shadow-md bg-white">
+          <h1 className="text-2xl font-semibold text-center mb-4 text-cyan-700">
+            Submit Your Review
+          </h1>
 
-      <div className="max-w-lg mx-auto my-8 p-4 rounded-md shadow-md bg-white">
-        <h1 className="text-2xl font-semibold text-center mb-4 text-cyan-700">
-          Submit Your Review
-        </h1>
+          {/* Form starts here */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              {/* Title Input */}
+              <FormField
+                name="title"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Review Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Title of your review" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        {/* Form starts here */}
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Title Input */}
-            <FormField
-              name="title"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Review Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Title of your review" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {/* Review Text Input */}
+              <FormField
+                name="review"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Review</FormLabel>
+                    <FormControl>
+                      <textarea
+                        className="w-full h-24 p-2 border border-input rounded-md text-sm"
+                        placeholder="Write your review here"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Review Text Input */}
-            <FormField
-              name="review"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Review</FormLabel>
-                  <FormControl>
-                    <textarea
-                      className="w-full h-24 p-2 border border-input rounded-md text-sm"
-                      placeholder="Write your review here"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {/* Rating Input */}
+              <FormField
+                name="rating"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rating</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Rate from 1 to 5"
+                        {...field}
+                        min={1}
+                        max={5}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Rating Input */}
-            <FormField
-              name="rating"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rating</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Rate from 1 to 5"
-                      {...field}
-                      min={1}
-                      max={5}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              variant="default"
-              className="w-full bg-cyan-800 hover:bg-cyan-500"
-            >
-              Submit Review
-            </Button>
-          </form>
-        </Form>
-      </div>
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                variant="default"
+                className="w-full bg-cyan-800 hover:bg-cyan-500"
+              >
+                Submit Review
+              </Button>
+            </form>
+          </Form>
+        </div>
+      ) : (
+        <div>You need to be logged in to create a recipe.</div>
+      )}
     </div>
   );
 }
