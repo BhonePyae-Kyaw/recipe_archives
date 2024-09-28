@@ -1,6 +1,6 @@
 # Recipe Archives
 
-**Recipe Archives** is a web application that enables users to discover, create, and engage with recipes from others. Acting as a collaborative cookbook, it allows users to not only share their own culinary creations but also explore a variety of recipes from the community. Users can provide feedback through comments and ratings, fostering a space for culinary interaction and discovery.
+**Recipe Archives** is a web application that enables users to discover, create, and engage with recipes from others. Acting as a collaborative cookbook, it allows users to not only share their own culinary creations but also explore a variety of recipes from the community. Users can provide feedback through reviews and ratings, fostering a space for culinary interaction and discovery.
 
 ## Features
 
@@ -33,12 +33,12 @@ This is the page for logging in and registering to use Recipe Archives.
 
 - **Login:**
 <div align="center">
-    <img src="./screenshots/Login.png" width="50%" alt="Login Page">
+    <img src="./screenshots/Login.png" width="80%" alt="Login Page">
 </div>
 
 - **Register:**
 <div align="center">
-    <img src="./screenshots/Register.png" width="50%" alt="Registration Page">
+    <img src="./screenshots/Register.png" width="80%" alt="Registration Page">
 </div>
 
 ### **Feed Page**
@@ -46,37 +46,37 @@ The Feed page allows you to view all the recipes and reviews. You can also creat
 
 - **Recipe and Review View:**
    <div align="center">
-       <img src="./screenshots/View Recipe.png" width="50%" alt="Recipe and Review View">
+       <img src="./screenshots/View Recipe.png" width="80%" alt="Recipe and Review View">
    </div>
   
 - **Navigation:**
    <div align="center">
-       <img src="./screenshots/Navigation.png" width="50%" alt="Navigation Bar">
+       <img src="./screenshots/Navigation.png" width="80%" alt="Navigation Bar">
    </div>
 
 - **Create Recipe:**
    <div align="center">
-       <img src="./screenshots/Create Recipe.png" width="50%" alt="Create Recipe Page">
+       <img src="./screenshots/Create Recipe.png" width="80%" alt="Create Recipe Page">
    </div>
 
 - **Upload Image:**
    <div align="center">
-       <img src="./screenshots/Image Upload.png" width="50%" alt="Image Upload">
+       <img src="./screenshots/Image Upload.png" width="80%" alt="Image Upload">
    </div>
 
 - **Create Review:**
    <div align="center">
-       <img src="./screenshots/Create Review.png" width="50%" alt="Create Review Page">
+       <img src="./screenshots/Create Review.png" width="80%" alt="Create Review Page">
    </div>
 
 - **View Recipe Detail:**
    <div align="center">
-       <img src="./screenshots/Recipe Detail.png" width="50%" alt="Recipe Detail View">
+       <img src="./screenshots/Recipe Detail.png" width="80%" alt="Recipe Detail View">
    </div>
 
 - **View Review Detail:**
    <div align="center">
-       <img src="./screenshots/Review Detail.png" width="50%" alt="Review Detail View">
+       <img src="./screenshots/Review Detail.png" width="80%" alt="Review Detail View">
    </div>
 
 ### **Profile Page**
@@ -84,41 +84,41 @@ This is the page where you can view and edit your profile. You can also see all 
 
 - **Edit Profile Information:**
    <div align="center">
-       <img src="./screenshots/EditUser Info.png" width="50%" alt="Edit Profile Information">
+       <img src="./screenshots/EditUser Info.png" width="80%" alt="Edit Profile Information">
    </div>
 
 - **View All Your Recipes:**
    <div align="center">
-       <img src="./screenshots/User Recipe Profile.png" width="50%" alt="User's Recipes">
+       <img src="./screenshots/User Recipe Profile.png" width="80%" alt="User's Recipes">
    </div>
 
 - **View All Your Reviews:**
    <div align="center">
-       <img src="./screenshots/User Review Profile.png" width="50%" alt="User's Reviews">
+       <img src="./screenshots/User Review Profile.png" width="80%" alt="User's Reviews">
    </div>
 
 - **Edit Your Recipe:**
    <div align="center">
-       <img src="./screenshots/Edit Recipe.png" width="50%" alt="Edit Recipe Page">
+       <img src="./screenshots/Edit Recipe.png" width="80%" alt="Edit Recipe Page">
    </div>
 
 - **Edit Your Review:**
    <div align="center">
-       <img src="./screenshots/Edit Review.png" width="50%" alt="Edit Review Page">
+       <img src="./screenshots/Edit Review.png" width="80%" alt="Edit Review Page">
    </div>
 
 ## Tech Stack
 
-- **Frontend**: Next.js, shadcn/ui, Tailwind CSS
-- **Backend**: MongoDB
+- **Frontend and Backend**: Next.js, shadcn/ui, Tailwind CSS
+- **Database**: MongoDB
 - **Authentication**: NextAuth.js
 - **Image Upload**: Cloudinary
 - **Deployment**: Vercel
 
 ## Team Members
-- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin) - Recipe
-- [Bhone Pyaw Kyaw](https://github.com/BhonePyae-Kyaw) - User
-- [Moe Myint Mo San](https://github.com/MoeMyintMoSan) - Review
+- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin)
+- [Bhone Pyae Kyaw](https://github.com/BhonePyae-Kyaw) 
+- [Moe Myint Mo San](https://github.com/MoeMyintMoSan)
 
 ## References
 - [NextAuth.js Documentation](https://next-auth.js.org/)
@@ -128,5 +128,7 @@ This is the page where you can view and edit your profile. You can also see all 
 - [Using Cloudinary in Next.js](https://youtu.be/Cm6-3pVCPEI?si=ps_0VOu6rE_ANiEw)
 - [Flaticon for Icon used](https://www.flaticon.com/search?word=food)
 
-## YouTube Video (Our Presentation)
+## YouTube Video (Product Showcase)
 - [Product Showcase](YOUTUBE LINK)
+
+## Live Demo
