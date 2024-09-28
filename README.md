@@ -1,6 +1,6 @@
 # Recipe Archives
 
-**Recipe Archives** is a web application that enables users to discover, create, and engage with recipes from others. Acting as a collaborative cookbook, it allows users to not only share their own culinary creations but also explore a variety of recipes from the community. Users can provide feedback through comments and ratings, fostering a space for culinary interaction and discovery.
+**Recipe Archives** is a web application that enables users to discover, create, and engage with recipes from others. Acting as a collaborative cookbook, it allows users to not only share their own culinary creations but also explore a variety of recipes from the community. Users can provide feedback through reviews and ratings, fostering a space for culinary interaction and discovery.
 
 ## Features
 
