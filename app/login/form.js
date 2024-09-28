@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -32,7 +33,13 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+  const { data: session } = useSession();
+
   const router = useRouter();
+
+  if (session) {
+    router.push("/feed");
+  }
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {},
