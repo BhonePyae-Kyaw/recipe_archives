@@ -1,16 +1,21 @@
 "use client";
+
+export const dynamic = "force-dynamic";
+
 import TopMenu from "@/components/TopMenu";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
+import { useParams } from "next/navigation";
 
-export default function RecipePage({ params }) {
+export default function RecipePage() {
   const router = useRouter();
   const { data: session } = useSession();
   const [recipe, setRecipe] = useState(null); // Store recipe data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const params = useParams();
 
   useEffect(() => {
     const fetchRecipe = async () => {

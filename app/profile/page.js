@@ -97,7 +97,7 @@ export default function Profile() {
 
     if (response.ok) {
       signOut({
-        callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/register`,
+        callbackUrl: `/register`,
       });
     } else {
       const errorData = await response.json();
@@ -118,8 +118,6 @@ export default function Profile() {
       );
 
       if (response.ok) {
-        setRecipes(recipes.filter((recipe) => recipe._id.$oid !== recipeId));
-
         window.location.reload();
       } else {
         const errorData = await response.json();
@@ -128,19 +126,8 @@ export default function Profile() {
     }
   };
 
-  const handleDeleteReview = (reviewId) => {
-    setRecipes((prevRecipes) =>
-      prevRecipes.map((recipe) => ({
-        ...recipe,
-        // Check if reviews is an array; if not, default to an empty array to prevent errors
-        reviews: Array.isArray(recipe.reviews)
-          ? recipe.reviews.filter((review) => {
-              const reviewIdString = review._id?.$oid || review._id;
-              return reviewIdString !== reviewId;
-            })
-          : [],
-      }))
-    );
+  const handleDeleteReview = (review_id) => {
+    window.location.reload();
   };
 
   return (
@@ -161,7 +148,7 @@ export default function Profile() {
               <button
                 onClick={() =>
                   signOut({
-                    callbackUrl: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/login`,
+                    callbackUrl: `/login`,
                   })
                 }
                 className="bg-slate-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
