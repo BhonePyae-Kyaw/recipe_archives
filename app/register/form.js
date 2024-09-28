@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 // Define the schema with zod
 const formSchema = z
@@ -47,6 +47,9 @@ const formSchema = z
 const RegisterForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+  const [responseError, setResponseError] = useState(null);
+  const [responseSuccess, setResponseSuccess] = useState(null);
   if (session) {
     router.push("/feed");
   }
@@ -58,6 +61,7 @@ const RegisterForm = () => {
 
   // Define the submit handler
   async function onSubmit(values) {
+    setLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE}/auth/register`,
       {
@@ -68,101 +72,121 @@ const RegisterForm = () => {
     const data = await response.json();
 
     if (data.error) {
-      toast.error(data.error);
+      setLoading(false);
+      setResponseError(data.error);
+      setTimeout(() => {
+        setResponseError(null);
+      }, 3000);
     } else {
-      toast.success("Account created successfully.");
-      router.push("/login");
+      setLoading(false);
+      setResponseSuccess(data.message);
+      setTimeout(() => {
+        router.push("/login");
+        setResponseSuccess(null);
+      }, 2000);
     }
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 border border-slate-300 p-8 bg-slate-100 rounded-lg"
-      >
-        <div></div>
-        <div className="md:flex gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="johndoe@gmail.com" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Email you want to use for your account.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="User Name" {...field} />
-                </FormControl>
-                <FormDescription>
-                  User name you want to use for your account.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div>
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormDescription>Password</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormDescription>Confirm your password.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <p className="text-slate-600">
-          Already have an account?{" "}
-          <span
-            className="text-cyan-700 cursor-pointer font-semibold"
-            onClick={() => router.push("login")}
-          >
-            Log in
-          </span>
-        </p>
+    <div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 border border-slate-300 p-8 bg-slate-100 rounded-lg"
+        >
+          <div></div>
+          <div className="md:flex gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="johndoe@gmail.com" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Email you want to use for your account.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="User Name" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    User name you want to use for your account.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormDescription>Password</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormDescription>Confirm your password.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <p className="text-slate-600">
+            Already have an account?{" "}
+            <span
+              className="text-cyan-700 cursor-pointer font-semibold"
+              onClick={() => router.push("login")}
+            >
+              Log in
+            </span>
+          </p>
 
-        <div className="w-full flex items-center justicy-center">
-          <Button className="bg-cyan-700 cursor-pointer m-auto" type="submit">
-            Register
-          </Button>
+          <div className="w-full flex items-center justicy-center">
+            <Button className="bg-cyan-700 cursor-pointer m-auto" type="submit">
+              Register
+            </Button>
+          </div>
+        </form>
+      </Form>
+      {responseError && (
+        <div className="p-4 bg-red-500 text-white rounded-lg">
+          {responseError}
         </div>
-      </form>
-    </Form>
+      )}
+      {responseSuccess && (
+        <div className="p-4 bg-green-500 text-white rounded-lg">
+          {responseSuccess}
+        </div>
+      )}
+    </div>
   );
 };
 

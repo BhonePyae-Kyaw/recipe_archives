@@ -1,8 +1,7 @@
 import localFont from "next/font/local";
 import SessionWrapper from "@/components/SessionWrapper";
 import "./globals.css";
-import Menu from "@/components/Menu";
-import TopMenu from "@/components/TopMenu";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +33,10 @@ export default function RootLayout({ children }) {
           }}
           className={`${geistSans.variable} ${geistMono.variable} antialiased p-2 flex justify-center items-center w-full h-full`}
         >
-          <div className="max-w-[1260px] w-full">{children}</div>
+          <div className="max-w-[1260px] w-full">
+            <ToastContainer />
+            {children}
+          </div>
         </body>
       </html>
     </SessionWrapper>
