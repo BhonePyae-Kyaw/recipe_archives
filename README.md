@@ -129,6 +129,7 @@ This is the page where you can view and edit your profile. You can also see all 
 - [Flaticon for Icon used](https://www.flaticon.com/search?word=food)
 
 ## YouTube Video (Product Showcase)
-- [Product Showcase](YOUTUBE LINK)
+- [Product Showcase](https://youtu.be/LcHAwdFk92w)
 
 ## Live Demo
+[Recipe Archives (Click to try our web app)](recipe-archives.vercel.app)
