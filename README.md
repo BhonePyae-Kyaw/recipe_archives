@@ -132,4 +132,4 @@ This is the page where you can view and edit your profile. You can also see all 
 - [Product Showcase](https://youtu.be/LcHAwdFk92w)
 
 ## Live Demo
-[Recipe Archives (Click to try our web app)](recipe-archives.vercel.app)
+- [Recipe Archives (Click to try our web app)](https://recipe-archives.vercel.app/)
