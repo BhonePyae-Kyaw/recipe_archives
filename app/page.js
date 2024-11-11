@@ -3,8 +3,10 @@
 // Force dynamic rendering on the server
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
+  redirect("/feed");
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="bg-slate-100 p-8 m-auto w-auto h-auto rounded-lg ">
