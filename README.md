@@ -116,7 +116,7 @@ This is the page where you can view and edit your profile. You can also see all 
 - **Deployment**: Vercel
 
 ## Team Members
-- [Kyaw Ye Lwin @ Anmol](https://github.com/KyawYeLwin)
+- [Anmol Sharma](https://github.com/AlpakaaaaaScript)
 - [Bhone Pyae Kyaw](https://github.com/BhonePyae-Kyaw) 
 - [Moe Myint Mo San](https://github.com/MoeMyintMoSan)
 
