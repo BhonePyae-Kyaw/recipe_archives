@@ -66,7 +66,7 @@ export default function Home() {
 
       <div className="min-h-100vh">
         <h1 className="text-3xl font-bold mb-6 text-center">
-          Explore Recipes!
+          Explore Recipes here!
         </h1>
         <button
           className="p-2 bg-cyan-700 text-white rounded-lg mb-6 hover:bg-cyan-500 transition"
